@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Squash Analysis Dashboard</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <button class="theme-toggle" aria-label="Toggle theme">
+        <i class="fas fa-moon"></i>
+    </button>
+
+    <!-- Introduction Section -->
+    <div class="introduction-section">
+        <img src="assets/myself2.png" alt="Your Name" class="profile-picture" loading="lazy">
+        <div class="introduction-text">
+            <h1>About This Project</h1>
+            <p>Squash is an expensive sport. Tournament fees, equipment, court costs, and coaching costs all add up to limit participation. I am attempting to reduce the cost of coaching by creating this tool: a frame by frame analysis of your squash gameplay.</p>
+            <a href="https://github.com/odiouschipmunk/vision" target="_blank" class="github-link">Visit my GitHub</a>
+        </div>
+    </div>
+
+    <nav class="navigation">
+        <ul>
+            <li><a href="#game-replay">Game Replay</a></li>
+            <li><a href="#visualization">3D Visualization</a></li>
+            <li><a href="#heatmaps">Heat Maps</a></li>
+            <li><a href="#shot-types">Shot Analysis</a></li>
+            <li><a href="#match-breakdown">Match Breakdown</a></li>
+            <li><a href="#distance-from-t">Distance from T</a></li>
+        </ul>
+    </nav>
+
+    <main class="content">
+        <section id="game-replay" class="analysis-section">
+            <h2>Game Replay</h2>
+            <div class="media-container">
+                <img src="assets/annotated2.gif" alt="Squash game replay" class="analysis-media" loading="lazy">
+            </div>
+        </section>
+
+        <section id="visualization" class="analysis-section">
+            <h2>3D Court Visualization</h2>
+            <div class="media-container">
+                <img src="assets/3d_match_visualization.png" alt="3D court visualization" class="analysis-media" loading="lazy">
+            </div>
+        </section>
+
+        <section id="heatmaps" class="analysis-section">
+            <h2>Player Heat Maps</h2>
+            <div class="heatmap-grid">
+                <div class="media-container">
+                    <h3>Player 1</h3>
+                    <img src="assets/player_1_heatmap.png" alt="Player 1 heat map" class="analysis-media" loading="lazy">
+                </div>
+                <div class="media-container">
+                    <h3>Player 2</h3>
+                    <img src="assets/player_2_heatmap.png" alt="Player 2 heat map" class="analysis-media" loading="lazy">
+                </div>
+            </div>
+        </section>
+
+        <section id="shot-types" class="analysis-section">
+            <h2>Shot Type Analysis</h2>
+            <div class="media-container">
+                <img src="assets/shot_distribution.png" alt="Shot type analysis" class="analysis-media" loading="lazy">
+            </div>
+        </section>
+
+        <section id="match-breakdown" class="analysis-section">
+            <h2>Match Breakdown</h2>
+            <div class="stats-container">
+                <!-- Collapsible Shot Distribution -->
+                <div>
+                    <h3 onclick="toggleCollapse(this)">Shot Distribution</h3>
+                    <ul>
+                        <li style="--i: 0">tight_straight drive: 188 shots (14.6%)</li>
+                        <li style="--i: 1">straight drive: 995 shots (77.3%)</li>
+                        <li style="--i: 2">wide_crosscourt drive: 101 shots (7.8%)</li>
+                        <li style="--i: 3">slight_crosscourt drive: 4 shots (0.3%)</li>
+                    </ul>
+                </div>
+                <!-- Additional Statistics -->
+                <div>
+                    <h3>Average Distance from T Position</h3>
+                    <ul>
+                        <li>Player 1: 0.79 meters</li>
+                        <li>Player 2: 0.87 meters</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="distance-from-t" class="analysis-section">
+            <h2>Distance from T Position</h2>
+            <div class="media-container">
+                <img src="assets/t_position_distance.png" alt="Distance from T position" class="analysis-media" loading="lazy">
+            </div>
+        </section> <!-- Ensure this closing tag is present -->
+
+    </main>
+
+    <script>
+        // Theme switching logic
+        const themeToggle = document.querySelector('.theme-toggle');
+        const html = document.documentElement;
+        const icon = themeToggle.querySelector('i');
+
+        // Check for saved theme preference
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        html.setAttribute('data-theme', savedTheme);
+        updateIcon(savedTheme);
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateIcon(newTheme);
+        });
+
+        function updateIcon(theme) {
+            icon.className = theme === 'light' ? 'fas fa-moon' : 'fas fa-sun';
+        }
+
+        // Add intersection observer for smooth animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.analysis-section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Toggle collapse for statistics
+        function toggleCollapse(element) {
+            const parent = element.parentElement;
+            parent.classList.toggle('collapsed');
+        }
+    </script>
+</body>
+</html>
