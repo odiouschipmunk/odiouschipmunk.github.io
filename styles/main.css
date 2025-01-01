@@ -192,7 +192,7 @@ html {
 
 /* Content styles */
 .content {
-    padding-top: 60px;
+    padding-top: 80px;
     max-width: 1400px;
     margin: 0 auto;
 }
@@ -475,4 +475,34 @@ p, li {
 
 .github-link:hover {
     background: var(--accent-secondary);
+}
+
+/* Contact Information Styles */
+.contact-info {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.contact-info li {
+    display: flex;
+    align-items: center;
+    font-size: 1rem;
+    color: var(--text-secondary);
+}
+
+.contact-info li i {
+    margin-right: 0.5rem;
+    color: var(--accent-primary);
+}
+
+/* Responsive Contact Info */
+@media (max-width: 768px) {
+    .contact-info {
+        flex-direction: column;
+        align-items: center;
+    }
 }
