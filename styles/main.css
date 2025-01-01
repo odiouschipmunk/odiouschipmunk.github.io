@@ -1,0 +1,478 @@
+:root {
+    --bg-primary: #f0f2f5;
+    --bg-secondary: #ffffff;
+    --text-primary: #2c3e50;
+    --text-secondary: #666666;
+    --accent-primary: #6e8efb;
+    --accent-secondary: #a777e3;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --gradient-start: #6e8efb;
+    --gradient-end: #a777e3;
+}
+
+[data-theme="dark"] {
+    --bg-primary: #1a1a1a;
+    --bg-secondary: #2d2d2d;
+    --text-primary: #ffffff;
+    --text-secondary: #cccccc;
+    --accent-primary: #8ca6ff;
+    --accent-secondary: #b088e6;
+    --shadow-color: rgba(0, 0, 0, 0.3);
+    --gradient-start: #3d4b7c;
+    --gradient-end: #583b73;
+}
+
+/* Add transition for theme switching */
+* {
+    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Enhance Typography */
+body {
+    font-family: 'Inter', sans-serif;
+    color: var(--text-primary);
+    line-height: 1.6;
+}
+
+h1, h2, h3 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+p {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+}
+
+.landing-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+    animation: gradientBG 15s ease infinite;
+    background-size: 400% 400%;
+}
+
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.tile-container {
+    padding: 2rem;
+    perspective: 1000px;
+    opacity: 0;
+    transform: translateY(10px);
+    animation: fadeInUp 0.5s ease forwards;
+    animation-delay: 0.2s;
+}
+
+.project-tile {
+    display: block;
+    width: 340px;
+    padding: 2.5rem;
+    background: var(--bg-secondary);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    text-decoration: none;
+    color: var(--text-primary);
+    transform-style: preserve-3d;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.project-tile::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at center, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 70%);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.project-tile:hover {
+    transform: translateY(-10px) rotateX(5deg);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+.project-tile:hover::before {
+    opacity: 1;
+}
+
+.project-tile h2 {
+    margin: 0 0 1.2rem 0;
+    color: #2c3e50;
+    font-size: 1.8rem;
+    font-weight: 700;
+    transform: translateZ(20px);
+    animation: float 2.5s ease-in-out infinite;
+}
+
+.project-tile p {
+    margin: 0;
+    color: #666;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    transform: translateZ(10px);
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-3px); }
+}
+
+/* Add smooth scrolling and better defaults */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+/* Add a pulsing effect */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.03); }
+    100% { transform: scale(1); }
+}
+
+.project-tile:hover h2 {
+    animation: pulse 1.5s infinite;
+}
+
+/* Navigation styles */
+.navigation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: var(--bg-secondary);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+    padding: 1rem 0;
+}
+
+.navigation ul {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    padding: 0.8rem 0;
+    margin: 0;
+    gap: 0.8rem;
+}
+
+.navigation li {
+    margin: 0 1.5rem;
+}
+
+.navigation a {
+    color: var(--text-primary);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+    font-size: 1.1rem;
+}
+
+.navigation a:hover {
+    color: var(--accent-primary);
+}
+
+/* Content styles */
+.content {
+    padding-top: 60px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.analysis-section {
+    min-height: 60vh;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.6s ease forwards;
+    scroll-margin-top: 60px;
+    background: var(--bg-primary);
+}
+
+.analysis-section:nth-child(even) {
+    background: color-mix(in srgb, var(--accent-primary) 5%, var(--bg-primary));
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.media-container {
+    max-width: 1000px;
+    width: 100%;
+    margin: 1rem auto;
+    padding: 0.8rem;
+    background: var(--bg-secondary);
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.media-container:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+}
+
+.analysis-media {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+.heatmap-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+    width: 100%;
+    max-width: 1200px;
+}
+
+.stats-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+    width: 100%;
+    max-width: 1200px;
+    padding: 1rem;
+}
+
+.stats-container ul {
+    list-style: none;
+    padding: 0.5rem;
+}
+
+.stats-container li {
+    margin: 0.5rem 0;
+    padding: 0.5rem;
+    background: color-mix(in srgb, var(--accent-primary) 10%, var(--bg-secondary));
+    border-radius: 6px;
+    transition: transform 0.2s ease;
+    animation: slideIn 0.3s ease forwards;
+    animation-delay: calc(var(--i, 0) * 0.1s);
+    color: var(--text-primary);
+}
+
+.stats-container li:hover {
+    transform: translateX(5px);
+    background: rgba(110, 142, 251, 0.2);
+}
+
+.stats-container div, .heatmap-grid div {
+    transition: max-height 0.3s ease, opacity 0.3s ease;
+    overflow: hidden;
+    max-height: 200px; /* Adjust as needed */
+    opacity: 0.9;
+}
+
+.stats-container div.collapsed, .heatmap-grid div.collapsed {
+    max-height: 0;
+    opacity: 0;
+}
+
+h2 {
+    color: #2c3e50;
+    margin-bottom: 0.8rem;
+    font-size: 1.6rem;
+    background: linear-gradient(135deg, var(--text-primary), var(--accent-primary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
+}
+
+h3 {
+    color: var(--text-primary);
+    margin-bottom: 0.4rem;
+    font-size: 1.2rem;
+    text-align: center;
+}
+
+p, li {
+    font-size: 1rem;
+    line-height: 1.4;
+}
+
+@media (max-width: 768px) {
+    .navigation ul {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .navigation li {
+        margin: 0.5rem 0;
+    }
+
+    .analysis-section {
+        min-height: auto;
+        padding: 1rem;
+    }
+
+    .heatmap-grid, .stats-container {
+        grid-template-columns: 1fr;
+    }
+
+    h2 {
+        font-size: 1.4rem;
+    }
+
+    h3 {
+        font-size: 1rem;
+    }
+
+    p, li {
+        font-size: 0.9rem;
+    }
+
+    .introduction-section {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
+/* Add smooth animations for content */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Enhance scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #6e8efb;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #a777e3;
+}
+
+/* Theme toggle button */
+.theme-toggle {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 1001;
+    padding: 0.5rem;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-secondary);
+    border: 2px solid var(--accent-primary);
+    color: var(--text-primary);
+    cursor: pointer;
+    box-shadow: 0 2px 10px var(--shadow-color);
+    transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.theme-toggle:hover {
+    transform: scale(1.1);
+    background: var(--accent-secondary);
+}
+
+/* Introduction Section */
+.introduction-section {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 2rem;
+    background: var(--bg-primary);
+    gap: 2rem;
+    text-align: left;
+    animation: fadeIn 1s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.profile-picture {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 4px 15px var(--shadow-color);
+    transition: transform 0.3s ease;
+}
+
+.profile-picture:hover {
+    transform: scale(1.05);
+}
+
+.introduction-text {
+    max-width: 600px;
+}
+
+.introduction-text h1 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.introduction-text p {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+}
+
+.github-link {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background: var(--accent-primary);
+    color: #fff;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background 0.3s ease;
+    border: none;
+}
+
+.github-link:hover {
+    background: var(--accent-secondary);
+}
