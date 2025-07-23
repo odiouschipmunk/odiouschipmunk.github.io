@@ -4,7 +4,7 @@
 const dialogueTexts = {
     1: "Hi! My name is Dhruv Panchal, and I'm currently an 11th grader in Princeton Day School. I love computer science and playing squash!",
     2: "I am 16 years old, and I am interested in computer science, especially in machine learning and computer vision.", 
-    3: "I have a couple projects. My main project is an autonomous 'squash coach' that analyzes player performance and provides real-time feedback. I made this using custom trained YOLO models and OpenCV. Check it out on my 'Main Story' page!",
+    3: "I have a couple projects. Check them out on my github or the 'Bonus' part of this website. My main project is an autonomous 'squash coach' that analyzes player performance and provides real-time feedback. I made this using custom trained YOLO models and OpenCV. Check it out on my 'Main Story' page!",
 };
 
 // Current dialogue state
