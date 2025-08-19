@@ -1,0 +1,19 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://odiouschipmunk.github.io/sitemap.xml
+
+# Disallow analytics data and output files from being crawled
+Disallow: /full video self 1/output/
+Disallow: /*.json$
+Disallow: /*.csv$
+Disallow: /*.txt$
+
+# Allow main pages
+Allow: /*.html
+Allow: /*.css
+Allow: /*.js
+Allow: /*.png
+Allow: /*.jpg
+Allow: /*.mp4

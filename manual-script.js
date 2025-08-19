@@ -222,7 +222,7 @@ function goBack() {
     
     // Navigate back after animation
     setTimeout(() => {
-        window.location.href = 'index.html';
+        window.location.href = 'arcade.html';
     }, 300);
 }
 

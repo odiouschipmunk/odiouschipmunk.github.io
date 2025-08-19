@@ -14,11 +14,17 @@ body {
     height: auto;
 }
 
+/* Header Buttons */
+.header-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+
 /* Back Button */
 .back-btn {
-    position: absolute;
-    top: 20px;
-    left: 20px;
     font-family: 'Minecraft', monospace;
     font-size: 1rem;
     padding: 10px 20px;
@@ -36,6 +42,29 @@ body {
 .back-btn:hover {
     background: rgba(152, 251, 152, 1);
     box-shadow: 0 0 15px #98FB98;
+    transform: translateY(-2px);
+}
+
+/* Professional Button */
+.professional-btn {
+    font-family: 'Minecraft', monospace;
+    font-size: 1rem;
+    padding: 10px 20px;
+    background: rgba(52, 152, 219, 0.8);
+    color: #2980b9;
+    border: 2px solid #2980b9;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+    text-decoration: none;
+    display: inline-block;
+}
+
+.professional-btn:hover {
+    background: rgba(52, 152, 219, 1);
+    color: white;
+    box-shadow: 0 0 15px #3498db;
     transform: translateY(-2px);
 }
 

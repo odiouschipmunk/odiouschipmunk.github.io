@@ -115,6 +115,48 @@
             box-shadow: 0 0 20px #00ff00;
             transform: translateY(-2px);
         }
+
+        .respawn-options {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .arcade-btn {
+            background: linear-gradient(45deg, #2a5d31, #4a7c59) !important;
+            border-color: #32cd32 !important;
+            color: #32cd32 !important;
+        }
+
+        .arcade-btn:hover {
+            box-shadow: 0 0 20px #32cd32 !important;
+            background: linear-gradient(45deg, #4a7c59, #2a5d31) !important;
+        }
+
+        .professional-btn {
+            background: linear-gradient(45deg, #2c3e50, #34495e) !important;
+            border-color: #3498db !important;
+            color: #3498db !important;
+        }
+
+        .professional-btn:hover {
+            box-shadow: 0 0 20px #3498db !important;
+            background: linear-gradient(45deg, #34495e, #2c3e50) !important;
+        }
+
+        @media (max-width: 768px) {
+            .respawn-options {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .home-btn {
+                font-size: 1.2rem;
+                padding: 12px 25px;
+            }
+        }
         
         .pixel-rain {
             position: fixed;
@@ -185,9 +227,12 @@
         <div class="error-description">
             Oops! Looks like you've wandered into an uncharted level.<br>
             This page hasn't been programmed yet!<br>
-            Time to respawn at the main menu.
+            Choose your respawn location:
         </div>
-        <a href="index.html" class="home-btn">Return to Base</a>
+        <div class="respawn-options">
+            <a href="arcade.html" class="home-btn arcade-btn">🎮 Arcade Mode</a>
+            <a href="professional.html" class="home-btn professional-btn">💼 Professional Mode</a>
+        </div>
     </div>
     
     <script>
@@ -543,7 +588,7 @@
         document.addEventListener('keydown', function(event) {
             if (event.key === 'Enter' || event.key === ' ') {
                 saveMusicState();
-                window.location.href = 'index.html';
+                window.location.href = 'arcade.html';
             }
             if (event.key === 'm' || event.key === 'M') {
                 toggleMusic();
