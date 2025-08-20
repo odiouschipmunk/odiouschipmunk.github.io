@@ -6,129 +6,1873 @@
     <title>Professional AI Squash Coach - Technical Analysis</title>
     <link rel="stylesheet" href="professional-styles.css">
     <link rel="stylesheet" href="squash-styles.css">
+    <style>
+        /* Professional Site-Consistent Color Scheme & Animations */
+        :root {
+            --primary-black: #000000;
+            --soft-black: #1a1a1a;
+            --dark-gray: #2d2d2d;
+            --medium-gray: #404040;
+            --light-gray: #cccccc;
+            --lighter-gray: #e0e0e0;
+            --lightest-gray: #f5f5f5;
+            --pure-white: #ffffff;
+            --accent-gray: #333333;
+            --glass-bg: rgba(0, 0, 0, 0.85);
+            --glass-border: rgba(255, 255, 255, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #ffffff;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 25%, #1f1f1f 50%, #333333 75%, #0a0a0a 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            position: relative;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Subtle animated background overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(255, 255, 255, 0.08) 0%, transparent 50%);
+            animation: backgroundFloat 20s ease-in-out infinite;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        @keyframes backgroundFloat {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(5px, -5px) rotate(1deg); }
+            50% { transform: translate(-3px, 3px) rotate(-1deg); }
+            75% { transform: translate(3px, 5px) rotate(0.5deg); }
+        }
+
+        .container {
+            background: transparent;
+            min-height: 100vh;
+            padding: 0;
+        }
+
+        .spring-background {
+            display: none;
+        }
+
+        /* Professional Header Styling - Glass Morphism */
+        .professional-header {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.98) 0%, rgba(20, 20, 20, 0.98) 50%, rgba(30, 30, 30, 0.98) 100%);
+            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(20px);
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.3),
+                0 2px 8px rgba(255, 255, 255, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 40px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .professional-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.03), transparent);
+            animation: headerShimmer 6s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes headerShimmer {
+            0% { transform: translateX(-100%); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateX(100%); opacity: 0; }
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .title-section {
+            flex: 1;
+            min-width: 500px;
+        }
+
+        .main-title {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--pure-white);
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+            line-height: 1.2;
+            text-shadow: 0 4px 20px rgba(255, 255, 255, 0.1);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--light-gray);
+            margin-bottom: 15px;
+            font-weight: 300;
+            text-shadow: 0 2px 10px rgba(255, 255, 255, 0.05);
+        }
+
+        .analysis-metadata {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            align-items: center;
+            font-size: 0.9rem;
+            color: var(--lighter-gray);
+        }
+
+        .metadata-item {
+            font-weight: 500;
+            padding: 6px 12px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .metadata-item:hover {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-1px);
+        }
+
+        .metadata-divider {
+            color: var(--medium-gray);
+            display: none; /* Hide dividers, using card style instead */
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .action-btn {
+            padding: 12px 24px;
+            border: 2px solid;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--pure-white);
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .action-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .action-btn:hover::before {
+            left: 100%;
+        }
+
+        .action-btn.primary {
+            border-color: var(--pure-white);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .action-btn.primary:hover {
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--primary-black);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 255, 255, 0.2);
+        }
+
+        .action-btn.secondary {
+            border-color: rgba(255, 255, 255, 0.4);
+            color: var(--light-gray);
+        }
+
+        .action-btn.secondary:hover {
+            border-color: var(--pure-white);
+            color: var(--pure-white);
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        /* Metrics Dashboard with Glass Morphism */
+        .metrics-dashboard {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.7) 0%, rgba(20, 20, 20, 0.8) 50%, rgba(10, 10, 10, 0.9) 100%);
+            -webkit-backdrop-filter: blur(15px);
+            backdrop-filter: blur(15px);
+            padding: 60px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .metrics-dashboard::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.02), transparent);
+            animation: metricsShimmer 8s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes metricsShimmer {
+            0% { transform: translateX(-100%) translateY(-100%); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateX(100%) translateY(100%); opacity: 0; }
+        }
+
+        .section-header {
+            max-width: 1400px;
+            margin: 0 auto 50px;
+            padding: 0 40px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--pure-white);
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+            text-shadow: 0 4px 20px rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+            border-radius: 2px;
+        }
+
+        .section-description {
+            font-size: 1.1rem;
+            color: var(--light-gray);
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .metrics-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 40px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .metric-category {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.6) 0%, rgba(30, 30, 30, 0.8) 100%);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 30px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .metric-category::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.03), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .metric-category:hover {
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-8px);
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.4),
+                0 10px 25px rgba(255, 255, 255, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .metric-category:hover::before {
+            opacity: 1;
+        }
+
+        .category-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--pure-white);
+            margin-bottom: 25px;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 15px;
+            position: relative;
+        }
+
+        .category-title::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
+        }
+
+        .metric-items {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .metric-item {
+            text-align: center;
+            padding: 20px 15px;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.4) 0%, rgba(20, 20, 20, 0.6) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .metric-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .metric-item:hover {
+            border-color: rgba(255, 255, 255, 0.2);
+            background: linear-gradient(135deg, rgba(10, 10, 10, 0.6) 0%, rgba(30, 30, 30, 0.8) 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .metric-item:hover::before {
+            left: 100%;
+        }
+
+        .metric-value {
+            display: block;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--pure-white);
+            margin-bottom: 8px;
+            line-height: 1.2;
+            text-shadow: 0 2px 10px rgba(255, 255, 255, 0.1);
+        }
+
+        .metric-label {
+            font-size: 0.85rem;
+            color: var(--light-gray);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Video Analysis Section with Glass Morphism */
+        .video-analysis-section {
+            background: linear-gradient(135deg, rgba(10, 10, 10, 0.8) 0%, rgba(0, 0, 0, 0.9) 50%, rgba(15, 15, 15, 0.8) 100%);
+            -webkit-backdrop-filter: blur(15px);
+            backdrop-filter: blur(15px);
+            padding: 60px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .video-analysis-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 70% 80%, rgba(255, 255, 255, 0.03) 0%, transparent 50%);
+            animation: videoFloat 15s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes videoFloat {
+            0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.5; }
+            50% { transform: scale(1.1) rotate(1deg); opacity: 1; }
+        }
+
+        .video-comparison-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .video-panel {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.6) 0%, rgba(30, 30, 30, 0.8) 100%);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .video-panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.02), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .video-panel:hover {
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-5px);
+            box-shadow: 
+                0 15px 35px rgba(0, 0, 0, 0.4),
+                0 8px 20px rgba(255, 255, 255, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .video-panel:hover::before {
+            opacity: 1;
+        }
+
+        .video-header {
+            padding: 25px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.8) 0%, rgba(20, 20, 20, 0.9) 100%);
+            position: relative;
+        }
+
+        .video-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--pure-white);
+            margin-bottom: 10px;
+            text-align: center;
+            text-shadow: 0 2px 10px rgba(255, 255, 255, 0.1);
+        }
+
+        .video-specs {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.85rem;
+            color: var(--light-gray);
+        }
+
+        .spec-item {
+            font-weight: 500;
+            padding: 4px 8px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 4px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .spec-divider {
+            color: var(--medium-gray);
+        }
+
+        .video-container {
+            padding: 20px;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.4) 0%, rgba(15, 15, 15, 0.6) 100%);
+        }
+
+        .analysis-video {
+            width: 100%;
+            height: auto;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .analysis-video:hover {
+            border-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .video-stats-grid {
+            max-width: 1400px;
+            margin: 40px auto 0;
+            padding: 0 40px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .video-stat-item {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.6) 0%, rgba(25, 25, 25, 0.8) 100%);
+            -webkit-backdrop-filter: blur(8px);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .video-stat-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .video-stat-item:hover {
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .video-stat-item:hover::before {
+            left: 100%;
+        }
+
+        .video-stat-item .stat-label {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--light-gray);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .video-stat-item .stat-value {
+            display: block;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--pure-white);
+            text-shadow: 0 2px 10px rgba(255, 255, 255, 0.1);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .metrics-grid {
+                grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+                gap: 30px;
+            }
+            
+            .video-comparison-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                text-align: center;
+                padding: 0 20px;
+            }
+
+            .title-section {
+                min-width: auto;
+                margin-bottom: 20px;
+            }
+
+            .main-title {
+                font-size: 2.2rem;
+            }
+
+            .analysis-metadata {
+                justify-content: center;
+                font-size: 0.8rem;
+            }
+
+            .metrics-grid {
+                grid-template-columns: 1fr;
+                padding: 0 20px;
+                gap: 20px;
+            }
+
+            .metric-items {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .video-comparison-grid,
+            .video-stats-grid {
+                padding: 0 20px;
+            }
+
+            .section-header {
+                padding: 0 20px;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main-title {
+                font-size: 1.8rem;
+                letter-spacing: 1px;
+            }
+
+            .section-title {
+                font-size: 1.6rem;
+            }
+
+            .metric-value {
+                font-size: 1.5rem;
+            }
+
+            .analysis-metadata {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .header-actions {
+                flex-direction: column;
+                gap: 10px;
+                width: 100%;
+            }
+
+            .action-btn {
+                width: 100%;
+                padding: 15px;
+            }
+        }
+
+        /* Technical Analysis Section with Professional Glass Effects */
+        .technical-analysis-section {
+            background: linear-gradient(135deg, rgba(15, 15, 15, 0.8) 0%, rgba(0, 0, 0, 0.9) 50%, rgba(20, 20, 20, 0.8) 100%);
+            -webkit-backdrop-filter: blur(15px);
+            backdrop-filter: blur(15px);
+            padding: 60px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .technical-analysis-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 10% 90%, rgba(255, 255, 255, 0.04) 0%, transparent 50%),
+                radial-gradient(circle at 90% 10%, rgba(255, 255, 255, 0.06) 0%, transparent 50%);
+            animation: techFloat 18s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes techFloat {
+            0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.7; }
+            33% { transform: translate(10px, -10px) scale(1.05); opacity: 1; }
+            66% { transform: translate(-5px, 10px) scale(0.95); opacity: 0.8; }
+        }
+
+        .pipeline-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 40px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .pipeline-stage {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.7) 0%, rgba(30, 30, 30, 0.9) 100%);
+            -webkit-backdrop-filter: blur(12px);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .pipeline-stage::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.03), transparent);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .pipeline-stage:hover {
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-8px);
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.5),
+                0 12px 25px rgba(255, 255, 255, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .pipeline-stage:hover::before {
+            opacity: 1;
+        }
+
+        .stage-header {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.9) 0%, rgba(25, 25, 25, 0.95) 100%);
+            padding: 25px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+
+        .stage-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--pure-white);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 10px rgba(255, 255, 255, 0.1);
+        }
+
+        .stage-number {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.7) 100%);
+            color: var(--primary-black);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            font-weight: 700;
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .pipeline-stage:hover .stage-number {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 1) 0%, rgba(240, 240, 240, 1) 100%);
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(255, 255, 255, 0.3);
+        }
+
+        .stage-content {
+            padding: 30px;
+            position: relative;
+        }
+
+        .technical-metrics {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .tech-metric {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.5) 0%, rgba(20, 20, 20, 0.7) 100%);
+            -webkit-backdrop-filter: blur(5px);
+            backdrop-filter: blur(5px);
+            padding: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 6px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tech-metric::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .tech-metric:hover {
+            border-color: rgba(255, 255, 255, 0.2);
+            background: linear-gradient(135deg, rgba(10, 10, 10, 0.7) 0%, rgba(30, 30, 30, 0.9) 100%);
+            transform: translateY(-2px);
+        }
+
+        .tech-metric:hover::before {
+            left: 100%;
+        }
+
+        .tech-metric .metric-label {
+            display: block;
+            font-size: 0.8rem;
+            color: var(--light-gray);
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .tech-metric .metric-value {
+            display: block;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--pure-white);
+            text-shadow: 0 1px 5px rgba(255, 255, 255, 0.1);
+        }
+
+        .stage-description {
+            font-size: 0.95rem;
+            color: var(--light-gray);
+            line-height: 1.6;
+            margin: 0;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Enhanced section styling for comprehensive-analysis */
+        .comprehensive-analysis {
+            background: var(--primary-black);
+            padding: 60px 0;
+            border-bottom: 1px solid var(--dark-gray);
+        }
+
+        .analysis-header {
+            max-width: 1400px;
+            margin: 0 auto 50px;
+            padding: 0 40px;
+            text-align: center;
+        }
+
+        .analysis-header h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--pure-white);
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+
+        .analysis-header p {
+            font-size: 1.1rem;
+            color: var(--light-gray);
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .analysis-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+        }
+
+        .analysis-panel {
+            background: var(--soft-black);
+            border: 1px solid var(--dark-gray);
+            padding: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .analysis-panel:hover {
+            border-color: var(--medium-gray);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+        }
+
+        .analysis-panel h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--pure-white);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .tech-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .graphic-description {
+            font-size: 0.9rem;
+            color: var(--light-gray);
+            line-height: 1.5;
+            text-align: center;
+            margin: 0;
+        }
+
+        /* Shot Classification Enhanced Styling */
+        .shot-classification {
+            background: var(--soft-black);
+        }
+
+        .shot-analysis-detailed {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        .shot-category-panel {
+            background: var(--primary-black);
+            border: 1px solid var(--dark-gray);
+            padding: 30px;
+        }
+
+        .shot-category-panel h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--pure-white);
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .shot-bars {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .shot-bar-item {
+            background: var(--soft-black);
+            padding: 20px;
+            border: 1px solid var(--dark-gray);
+        }
+
+        .shot-name {
+            display: block;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--pure-white);
+            margin-bottom: 10px;
+        }
+
+        .shot-progress {
+            position: relative;
+            background: var(--dark-gray);
+            height: 25px;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .shot-fill {
+            background: linear-gradient(90deg, var(--pure-white) 0%, var(--light-gray) 100%);
+            height: 100%;
+            transition: width 1s ease;
+        }
+
+        .shot-count {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary-black);
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .tactical-analysis-panel {
+            background: var(--primary-black);
+            border: 1px solid var(--dark-gray);
+            padding: 30px;
+        }
+
+        .pattern-metrics {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .pattern-metric {
+            background: var(--soft-black);
+            padding: 15px;
+            border: 1px solid var(--dark-gray);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .pattern-metric .metric-label {
+            color: var(--light-gray);
+            font-size: 0.9rem;
+        }
+
+        .pattern-metric .metric-value {
+            color: var(--pure-white);
+            font-weight: 600;
+        }
+
+        /* Data Analysis Section with Professional Glass Effects */
+        .data-analysis-section {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.8) 0%, rgba(15, 15, 15, 0.9) 50%, rgba(5, 5, 5, 0.8) 100%);
+            -webkit-backdrop-filter: blur(15px);
+            backdrop-filter: blur(15px);
+            padding: 60px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .data-analysis-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
+            animation: dataFlow 20s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes dataFlow {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); opacity: 0.6; }
+            25% { transform: translate(15px, -15px) rotate(1deg); opacity: 1; }
+            50% { transform: translate(-10px, 5px) rotate(-0.5deg); opacity: 0.8; }
+            75% { transform: translate(5px, -5px) rotate(0.5deg); opacity: 0.9; }
+        }
+
+        .data-analysis-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .data-category {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.7) 0%, rgba(25, 25, 25, 0.9) 100%);
+            -webkit-backdrop-filter: blur(12px);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .data-category::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.03), transparent);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .data-category:hover {
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-5px);
+            box-shadow: 
+                0 15px 35px rgba(0, 0, 0, 0.5),
+                0 8px 20px rgba(255, 255, 255, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .data-category:hover::before {
+            opacity: 1;
+        }
+
+        .data-category-title {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.9) 0%, rgba(20, 20, 20, 0.95) 100%);
+            color: var(--pure-white);
+            font-size: 1.2rem;
+            font-weight: 600;
+            padding: 20px;
+            margin: 0;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            text-shadow: 0 2px 10px rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+
+        .data-metrics {
+            padding: 25px;
+            position: relative;
+        }
+
+        .data-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .data-row::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.03), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .data-row:last-child {
+            border-bottom: none;
+        }
+
+        .data-row:hover {
+            background: linear-gradient(135deg, rgba(5, 5, 5, 0.5) 0%, rgba(15, 15, 15, 0.7) 100%);
+            -webkit-backdrop-filter: blur(8px);
+            backdrop-filter: blur(8px);
+            padding-left: 10px;
+            padding-right: 10px;
+            margin: 0 -10px;
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .data-row:hover::before {
+            left: 100%;
+        }
+
+        .data-row.highlight {
+            background: linear-gradient(135deg, rgba(15, 15, 15, 0.6) 0%, rgba(25, 25, 25, 0.8) 100%);
+            -webkit-backdrop-filter: blur(8px);
+            backdrop-filter: blur(8px);
+            padding-left: 10px;
+            padding-right: 10px;
+            margin: 0 -10px;
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .data-label {
+            color: var(--light-gray);
+            font-size: 0.9rem;
+            font-weight: 500;
+            flex: 1;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        }
+
+        .data-value {
+            color: var(--pure-white);
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-align: right;
+            min-width: 120px;
+            text-shadow: 0 1px 5px rgba(255, 255, 255, 0.1);
+        }
+
+        .data-row.highlight .data-value {
+            color: var(--pure-white);
+            text-shadow: 0 2px 8px rgba(255, 255, 255, 0.2);
+        }
+
+        /* File System Section with Professional Glass Effects */
+        .file-system-section {
+            background: linear-gradient(135deg, rgba(10, 10, 10, 0.8) 0%, rgba(0, 0, 0, 0.9) 50%, rgba(15, 15, 15, 0.8) 100%);
+            -webkit-backdrop-filter: blur(15px);
+            backdrop-filter: blur(15px);
+            padding: 60px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .file-system-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 30% 70%, rgba(255, 255, 255, 0.02) 0%, transparent 50%),
+                radial-gradient(circle at 70% 30%, rgba(255, 255, 255, 0.04) 0%, transparent 50%);
+            animation: fileFloat 22s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes fileFloat {
+            0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.5; }
+            33% { transform: translate(8px, -12px) scale(1.02); opacity: 1; }
+            66% { transform: translate(-6px, 8px) scale(0.98); opacity: 0.7; }
+        }
+
+        .file-system-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .file-category-panel {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.7) 0%, rgba(20, 20, 20, 0.9) 100%);
+            -webkit-backdrop-filter: blur(12px);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .file-category-panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.03), transparent);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .file-category-panel:hover {
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-5px);
+            box-shadow: 
+                0 15px 40px rgba(0, 0, 0, 0.6),
+                0 8px 20px rgba(255, 255, 255, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .file-category-panel:hover::before {
+            opacity: 1;
+        }
+
+        .category-header {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.9) 0%, rgba(25, 25, 25, 0.95) 100%);
+            padding: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+
+        .category-title {
+            color: var(--pure-white);
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 10px rgba(255, 255, 255, 0.1);
+        }
+
+        .file-count {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+            -webkit-backdrop-filter: blur(5px);
+            backdrop-filter: blur(5px);
+            color: var(--light-gray);
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .file-list {
+            padding: 20px;
+            position: relative;
+        }
+
+        .file-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.5) 0%, rgba(15, 15, 15, 0.7) 100%);
+            -webkit-backdrop-filter: blur(8px);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .file-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.03), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .file-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .file-item:hover {
+            border-color: rgba(255, 255, 255, 0.2);
+            background: linear-gradient(135deg, rgba(5, 5, 5, 0.7) 0%, rgba(25, 25, 25, 0.9) 100%);
+            transform: translateX(5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .file-item:hover::before {
+            left: 100%;
+        }
+
+        .file-icon-wrapper {
+            flex-shrink: 0;
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+            -webkit-backdrop-filter: blur(5px);
+            backdrop-filter: blur(5px);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .file-item:hover .file-icon-wrapper {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.08) 100%);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
+        }
+
+        .file-icon {
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .file-details {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .file-name {
+            color: var(--pure-white);
+            font-size: 1rem;
+            font-weight: 600;
+            line-height: 1.2;
+            text-shadow: 0 1px 5px rgba(255, 255, 255, 0.1);
+        }
+
+        .file-description {
+            color: var(--light-gray);
+            font-size: 0.85rem;
+            line-height: 1.3;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        }
+
+        .file-type {
+            color: var(--lighter-gray);
+            font-size: 0.75rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Professional Footer with Glass Effects */
+        .professional-footer {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.9) 0%, rgba(15, 15, 15, 0.95) 50%, rgba(0, 0, 0, 0.9) 100%);
+            -webkit-backdrop-filter: blur(15px);
+            backdrop-filter: blur(15px);
+            border-top: 2px solid rgba(255, 255, 255, 0.1);
+            padding: 50px 0 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .professional-footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.03) 0%, transparent 50%),
+                linear-gradient(180deg, rgba(255, 255, 255, 0.02) 0%, transparent 100%);
+            pointer-events: none;
+        }
+
+        .footer-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+            position: relative;
+            z-index: 1;
+        }
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+
+        .footer-main {
+            flex: 1;
+        }
+
+        .footer-title {
+            color: var(--pure-white);
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        .footer-description {
+            color: var(--light-gray);
+            font-size: 1rem;
+            line-height: 1.5;
+            margin-bottom: 15px;
+            max-width: 500px;
+        }
+
+        .footer-stats {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 0.9rem;
+            color: var(--lighter-gray);
+        }
+
+        .footer-stat {
+            font-weight: 500;
+        }
+
+        .footer-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .footer-btn {
+            padding: 12px 24px;
+            border: 2px solid var(--medium-gray);
+            background: transparent;
+            color: var(--light-gray);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+
+        .footer-btn:hover {
+            border-color: var(--pure-white);
+            color: var(--pure-white);
+        }
+
+        .footer-btn.primary {
+            border-color: var(--pure-white);
+            color: var(--pure-white);
+        }
+
+        .footer-btn.primary:hover {
+            background: var(--pure-white);
+            color: var(--primary-black);
+        }
+
+        .footer-bottom {
+            padding-top: 30px;
+            border-top: 1px solid var(--dark-gray);
+        }
+
+        .footer-info {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            font-size: 0.85rem;
+            color: var(--light-gray);
+        }
+
+        @media (max-width: 768px) {
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 30px;
+            }
+
+            .footer-actions {
+                justify-content: center;
+                flex-direction: column;
+                gap: 15px;
+                width: 100%;
+            }
+
+            .footer-btn {
+                width: 200px;
+                text-align: center;
+            }
+
+            .footer-info {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .professional-footer {
+                padding: 40px 0 25px;
+            }
+
+            .footer-container {
+                padding: 0 20px;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="container">
-        <!-- Switch View Button -->
-        <div class="switch-view">
-            <a href="squash-analysis.html" class="switch-btn">🎮 Arcade Mode</a>
-        </div>
         
-        <div class="spring-background"></div>
-        
-        <!-- Header -->
-        <header class="header">
-            <h1 class="title">PROFESSIONAL AI SQUASH COACH</h1>
-            <div class="subtitle">Advanced Technical Analysis System</div>
-            <div class="header-buttons">
-                <button class="back-btn" onclick="window.location.href='projects-professional.html'">
-                    ← Back to Projects
-                </button>
-                <button class="professional-btn" onclick="window.location.href='squash-analysis.html'">
-                    🎮 Arcade Version
-                </button>
+        <!-- Professional Header -->
+        <header class="professional-header">
+            <div class="header-container">
+                <div class="title-section">
+                    <h1 class="main-title">PROFESSIONAL AI SQUASH COACH</h1>
+                    <div class="subtitle">Advanced Computer Vision & Machine Learning Analysis System</div>
+                    <div class="analysis-metadata">
+                        <span class="metadata-item">Analysis Date: July 18, 2025</span>
+                        <span class="metadata-divider">|</span>
+                        <span class="metadata-item">Video: self1.mp4</span>
+                        <span class="metadata-divider">|</span>
+                        <span class="metadata-item">GPU Acceleration: Enabled</span>
+                        <span class="metadata-divider">|</span>
+                        <span class="metadata-item">Processing Time: 15:10:59</span>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <button class="action-btn primary" onclick="window.location.href='projects-professional.html'">
+                        ← Back to Projects
+                    </button>
+                    <button class="action-btn secondary" onclick="window.location.href='squash-analysis.html'">
+                        Arcade Version →
+                    </button>
+                </div>
             </div>
         </header>
 
-        <!-- Real-Time Performance Metrics Dashboard -->
-        <section class="enhanced-overview">
-            <div class="overview-header">
-                <h2>🚀 Real-Time Processing Metrics</h2>
-                <p>Advanced computer vision pipeline performance indicators</p>
+        <!-- Comprehensive Performance Metrics Dashboard -->
+        <section class="metrics-dashboard">
+            <div class="section-header">
+                <h2 class="section-title">Real-Time Processing Metrics & System Performance</h2>
+                <p class="section-description">Advanced computer vision pipeline performance indicators with GPU acceleration</p>
             </div>
             
-            <div class="quick-stats-grid">
-                <div class="stat-box performance">
-                    <div class="stat-icon">🎯</div>
-                    <div class="stat-data">
-                        <span class="stat-number">99.8%</span>
-                        <span class="stat-title">Detection Accuracy</span>
+            <div class="metrics-grid">
+                <!-- Core Processing Metrics -->
+                <div class="metric-category">
+                    <h3 class="category-title">Core Processing</h3>
+                    <div class="metric-items">
+                        <div class="metric-item">
+                            <span class="metric-value">99.8%</span>
+                            <span class="metric-label">Detection Accuracy</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="metric-value">4,086</span>
+                            <span class="metric-label">Frames Processed</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="metric-value">3,982</span>
+                            <span class="metric-label">Enhanced Data Points</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="metric-value">587</span>
+                            <span class="metric-label">Total Match Frames</span>
+                        </div>
                     </div>
                 </div>
-                <div class="stat-box shots">
-                    <div class="stat-icon">⚡</div>
-                    <div class="stat-data">
-                        <span class="stat-number">4,086</span>
-                        <span class="stat-title">Frames Processed</span>
+
+                <!-- Ball Analysis Metrics -->
+                <div class="metric-category">
+                    <h3 class="category-title">Ball Dynamics</h3>
+                    <div class="metric-items">
+                        <div class="metric-item">
+                            <span class="metric-value">119.86</span>
+                            <span class="metric-label">Max Ball Speed (px/frame)</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="metric-value">11.50</span>
+                            <span class="metric-label">Avg Velocity</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="metric-value">100</span>
+                            <span class="metric-label">Trajectory Points</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="metric-value">487</span>
+                            <span class="metric-label">Wall Bounces Detected</span>
+                        </div>
                     </div>
                 </div>
-                <div class="stat-box movement">
-                    <div class="stat-icon">📊</div>
-                    <div class="stat-data">
-                        <span class="stat-number">3,982</span>
-                        <span class="stat-title">Data Points</span>
+
+                <!-- Match Statistics -->
+                <div class="metric-category">
+                    <h3 class="category-title">Match Analysis</h3>
+                    <div class="metric-items">
+                        <div class="metric-item">
+                            <span class="metric-value">93.4%</span>
+                            <span class="metric-label">Active Rally Time</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="metric-value">38</span>
+                            <span class="metric-label">Total Rallies</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="metric-value">97.8</span>
+                            <span class="metric-label">Avg Rally Length (frames)</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="metric-value">678</span>
+                            <span class="metric-label">Longest Rally (frames)</span>
+                        </div>
                     </div>
                 </div>
-                <div class="stat-box tactics">
-                    <div class="stat-icon">🏃</div>
-                    <div class="stat-data">
-                        <span class="stat-number">119.86</span>
-                        <span class="stat-title">Max Ball Speed</span>
+
+                <!-- Shot Classification -->
+                <div class="metric-category">
+                    <h3 class="category-title">Shot Classification</h3>
+                    <div class="metric-items">
+                        <div class="metric-item">
+                            <span class="metric-value">46</span>
+                            <span class="metric-label">Unique Shot Types</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="metric-value">822</span>
+                            <span class="metric-label">Most Frequent Shot Count</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="metric-value">84.5%</span>
+                            <span class="metric-label">Lob Distribution</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="metric-value">15%</span>
+                            <span class="metric-label">Pattern Predictability</span>
+                        </div>
                     </div>
                 </div>
-                <div class="stat-box frames">
-                    <div class="stat-icon">🎲</div>
-                    <div class="stat-data">
-                        <span class="stat-number">46</span>
-                        <span class="stat-title">Shot Types</span>
+
+                <!-- Technical Performance -->
+                <div class="metric-category">
+                    <h3 class="category-title">Technical Performance</h3>
+                    <div class="metric-items">
+                        <div class="metric-item">
+                            <span class="metric-value">YOLO v8</span>
+                            <span class="metric-label">Detection Model</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="metric-value">GPU</span>
+                            <span class="metric-label">Acceleration</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="metric-value">100%</span>
+                            <span class="metric-label">Player Tracking Success</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="metric-value">JSON/CSV</span>
+                            <span class="metric-label">Data Pipeline</span>
+                        </div>
                     </div>
                 </div>
-                <div class="stat-box speed">
-                    <div class="stat-icon">⏱️</div>
-                    <div class="stat-data">
-                        <span class="stat-number">93.4%</span>
-                        <span class="stat-title">Active Rally Time</span>
-                    </div>
-                </div>
-                <div class="stat-box gpu">
-                    <div class="stat-icon">🖥️</div>
-                    <div class="stat-data">
-                        <span class="stat-number">GPU</span>
-                        <span class="stat-title">Acceleration</span>
-                    </div>
-                </div>
-                <div class="stat-box ai">
-                    <div class="stat-icon">🧠</div>
-                    <div class="stat-data">
-                        <span class="stat-number">YOLO</span>
-                        <span class="stat-title">Detection Model</span>
+
+                <!-- Quality Assurance -->
+                <div class="metric-category">
+                    <h3 class="category-title">Quality Assurance</h3>
+                    <div class="metric-items">
+                        <div class="metric-item">
+                            <span class="metric-value">Multi-Criteria</span>
+                            <span class="metric-label">Validation Method</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="metric-value">Real-Time</span>
+                            <span class="metric-label">Processing Mode</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="metric-value">ReID</span>
+                            <span class="metric-label">Tracking System</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="metric-value">OpenCV</span>
+                            <span class="metric-label">Computer Vision</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Video Comparison Section -->
-        <section class="video-comparison">
-            <div class="video-header">
-                <h2>🎥 Video Analysis Comparison</h2>
-                <p>Original match footage vs AI-annotated technical analysis</p>
+        <!-- Professional Video Analysis Section -->
+        <section class="video-analysis-section">
+            <div class="section-header">
+                <h2 class="section-title">Video Analysis Comparison</h2>
+                <p class="section-description">Original match footage vs AI-annotated technical analysis with real-time computer vision processing</p>
             </div>
             
-            <div class="video-container">
+            <div class="video-comparison-grid">
                 <div class="video-panel">
-                    <h3>Original Match Footage</h3>
-                    <div class="video-wrapper">
-                        <video id="originalVideo" controls preload="metadata" class="match-video" muted loop>
+                    <div class="video-header">
+                        <h3 class="video-title">Original Match Footage</h3>
+                        <div class="video-specs">
+                            <span class="spec-item">Raw Input</span>
+                            <span class="spec-divider">•</span>
+                            <span class="spec-item">3x Speed</span>
+                            <span class="spec-divider">•</span>
+                            <span class="spec-item">587 Frames</span>
+                        </div>
+                    </div>
+                    <div class="video-container">
+                        <video id="originalVideo" controls preload="metadata" class="analysis-video" muted loop>
                             <source src="videos/original.mp4" type="video/mp4">
                             Your browser does not support the video tag.
                         </video>
                     </div>
-                    <div class="video-info">
-                        <span class="video-tag">Raw Input (3x Speed)</span>
-                    </div>
                 </div>
                 
                 <div class="video-panel">
-                    <h3>AI Technical Analysis</h3>
-                    <div class="video-wrapper">
-                        <video id="annotatedVideo" controls preload="metadata" class="match-video" muted loop>
+                    <div class="video-header">
+                        <h3 class="video-title">AI Technical Analysis</h3>
+                        <div class="video-specs">
+                            <span class="spec-item">CV Annotated</span>
+                            <span class="spec-divider">•</span>
+                            <span class="spec-item">3x Speed</span>
+                            <span class="spec-divider">•</span>
+                            <span class="spec-item">YOLO Detection</span>
+                        </div>
+                    </div>
+                    <div class="video-container">
+                        <video id="annotatedVideo" controls preload="metadata" class="analysis-video" muted loop>
                             <source src="videos/annotated.mp4" type="video/mp4">
                             Your browser does not support the video tag.
                         </video>
                     </div>
-                    <div class="video-info">
-                        <span class="video-tag">CV Annotated (3x Speed)</span>
-                    </div>
+                </div>
+            </div>
+            
+            <!-- Video Analysis Statistics -->
+            <div class="video-stats-grid">
+                <div class="video-stat-item">
+                    <span class="stat-label">Processing Accuracy</span>
+                    <span class="stat-value">99.8%</span>
+                </div>
+                <div class="video-stat-item">
+                    <span class="stat-label">Object Detection Rate</span>
+                    <span class="stat-value">100%</span>
+                </div>
+                <div class="video-stat-item">
+                    <span class="stat-label">Tracking Consistency</span>
+                    <span class="stat-value">100%</span>
+                </div>
+                <div class="video-stat-item">
+                    <span class="stat-label">Frame Processing Time</span>
+                    <span class="stat-value">Real-Time</span>
                 </div>
             </div>
         </section>
@@ -302,6 +2046,250 @@
             </div>
         </section>
 
+        <!-- Comprehensive Data Analysis Section -->
+        <section class="data-analysis-section">
+            <div class="section-header">
+                <h2 class="section-title">Comprehensive Match Data Analysis</h2>
+                <p class="section-description">Detailed statistical breakdown with advanced performance metrics and tactical insights</p>
+            </div>
+            
+            <div class="data-analysis-grid">
+                <!-- Ball Physics & Dynamics -->
+                <div class="data-category">
+                    <h3 class="data-category-title">Ball Physics & Dynamics</h3>
+                    <div class="data-metrics">
+                        <div class="data-row">
+                            <span class="data-label">Total Trajectory Points</span>
+                            <span class="data-value">100</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">Average Velocity</span>
+                            <span class="data-value">11.50 px/frame</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">Maximum Velocity</span>
+                            <span class="data-value">28.30 px/frame</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">Velocity Variance</span>
+                            <span class="data-value">36.79</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">Direction Changes</span>
+                            <span class="data-value">3 per rally avg</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">Wall Bounces</span>
+                            <span class="data-value">487 detected</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">GPU Detected Bounces</span>
+                            <span class="data-value">Multi-criteria validated</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">Ball Speed Consistency</span>
+                            <span class="data-value">Variable (8.05 avg)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Shot Type Distribution -->
+                <div class="data-category">
+                    <h3 class="data-category-title">Shot Type Distribution</h3>
+                    <div class="data-metrics">
+                        <div class="data-row highlight">
+                            <span class="data-label">Most Frequent Shot</span>
+                            <span class="data-value">Straight Lob Soft (822)</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">Crosscourt Shots</span>
+                            <span class="data-value">55.3% of total</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">Lob Distribution</span>
+                            <span class="data-value">84.5% of shots</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">Drive Distribution</span>
+                            <span class="data-value">15.5% of shots</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">Height Preference</span>
+                            <span class="data-value">High (Lob-focused)</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">Direction Variety</span>
+                            <span class="data-value">Excellent</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">Shot Transition Pattern</span>
+                            <span class="data-value">Slight→Straight (46x)</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">Tactical Predictability</span>
+                            <span class="data-value">15.0% (Very Low)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Match Statistics -->
+                <div class="data-category">
+                    <h3 class="data-category-title">Match Statistics</h3>
+                    <div class="data-metrics">
+                        <div class="data-row">
+                            <span class="data-label">Total Rallies</span>
+                            <span class="data-value">38</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">Average Rally Length</span>
+                            <span class="data-value">97.8 frames</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">Longest Rally</span>
+                            <span class="data-value">678 frames</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">Active Rally Time</span>
+                            <span class="data-value">93.4% of match</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">Total Data Points</span>
+                            <span class="data-value">3,982 analyzed</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">Enhanced Coaching Points</span>
+                            <span class="data-value">56 identified</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">Court Coverage Analysis</span>
+                            <span class="data-value">Comprehensive</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">Movement Efficiency</span>
+                            <span class="data-value">Optimized</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Technical Performance -->
+                <div class="data-category">
+                    <h3 class="data-category-title">Technical Performance</h3>
+                    <div class="data-metrics">
+                        <div class="data-row">
+                            <span class="data-label">Detection Model</span>
+                            <span class="data-value">YOLO v8</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">Processing Accuracy</span>
+                            <span class="data-value">99.8%</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">Tracking Success Rate</span>
+                            <span class="data-value">100%</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">ReID Algorithm</span>
+                            <span class="data-value">Deep Learning</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">GPU Acceleration</span>
+                            <span class="data-value">CUDA Enabled</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">Frame Processing</span>
+                            <span class="data-value">Real-time</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">Data Export Format</span>
+                            <span class="data-value">JSON, CSV, TXT</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">Analysis Date</span>
+                            <span class="data-value">2025-07-18 15:10:59</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Player Analysis -->
+                <div class="data-category">
+                    <h3 class="data-category-title">Player Performance</h3>
+                    <div class="data-metrics">
+                        <div class="data-row">
+                            <span class="data-label">Player 1 Coverage</span>
+                            <span class="data-value">Excellent</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">Player 1 Mobility</span>
+                            <span class="data-value">Moderate</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">Player 2 Coverage</span>
+                            <span class="data-value">Excellent</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">Player 2 Mobility</span>
+                            <span class="data-value">Moderate</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">Court Positioning</span>
+                            <span class="data-value">Central Tendency</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">Movement Patterns</span>
+                            <span class="data-value">Analyzed & Tracked</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">X-Axis Coverage</span>
+                            <span class="data-value">52.97% of court</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">Y-Axis Coverage</span>
+                            <span class="data-value">50.56% of court</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Advanced Analytics -->
+                <div class="data-category">
+                    <h3 class="data-category-title">Advanced Analytics</h3>
+                    <div class="data-metrics">
+                        <div class="data-row">
+                            <span class="data-label">Shot Variety Score</span>
+                            <span class="data-value">39/10 (Exceptional)</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">Unique Shot Types</span>
+                            <span class="data-value">46 identified</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">Pattern Recognition</span>
+                            <span class="data-value">ML-powered</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">Tactical Analysis</span>
+                            <span class="data-value">Comprehensive</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">Quality Assurance</span>
+                            <span class="data-value">Multi-criteria</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">Bounce Validation</span>
+                            <span class="data-value">Angle, Velocity, Proximity</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">Coaching Insights</span>
+                            <span class="data-value">AI-generated</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">Performance Optimization</span>
+                            <span class="data-value">Recommendations Available</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- Movement & Performance Analytics -->
         <section class="comprehensive-analysis">
             <div class="analysis-header">
@@ -454,76 +2442,280 @@
             </div>
         </section>
 
-        <!-- Generated Outputs & Data Files -->
-        <section class="comprehensive-analysis">
-            <div class="analysis-header">
-                <h2>📁 Generated Outputs & Technical Data</h2>
-                <p>Complete analysis reports, visualizations, and exportable data</p>
+        <!-- Comprehensive Generated Outputs & Data Files -->
+        <section class="file-system-section">
+            <div class="section-header">
+                <h2 class="section-title">Generated Outputs & Technical Data</h2>
+                <p class="section-description">Complete analysis reports, visualizations, raw data files, and exportable datasets</p>
             </div>
             
-            <div class="analysis-grid">
-                <div class="analysis-panel medium file-category">
-                    <h3>📈 Analysis Reports</h3>
+            <div class="file-system-grid">
+                <!-- Analysis Reports -->
+                <div class="file-category-panel">
+                    <div class="category-header">
+                        <h3 class="category-title">Analysis Reports</h3>
+                        <span class="file-count">4 files</span>
+                    </div>
                     <div class="file-list">
-                        <a href="full video self 1/output/autonomous_coaching_report.txt" class="file-link">
-                            <span class="file-icon">📋</span>
-                            <span class="file-name">Autonomous Coaching Report</span>
+                        <a href="full video self 1/output/autonomous_coaching_report.txt" class="file-item">
+                            <div class="file-icon-wrapper">
+                                <span class="file-icon">📋</span>
+                            </div>
+                            <div class="file-details">
+                                <span class="file-name">Autonomous Coaching Report</span>
+                                <span class="file-description">Basic AI coaching analysis (95 lines)</span>
+                                <span class="file-type">TXT • 4.2 KB</span>
+                            </div>
                         </a>
-                        <a href="full video self 1/output/enhanced_autonomous_coaching_report.txt" class="file-link">
-                            <span class="file-icon">📊</span>
-                            <span class="file-name">Enhanced Coaching Analysis</span>
+                        <a href="full video self 1/output/enhanced_autonomous_coaching_report.txt" class="file-item">
+                            <div class="file-icon-wrapper">
+                                <span class="file-icon">📊</span>
+                            </div>
+                            <div class="file-details">
+                                <span class="file-name">Enhanced Coaching Analysis</span>
+                                <span class="file-description">Advanced coaching recommendations</span>
+                                <span class="file-type">TXT • 8.7 KB</span>
+                            </div>
                         </a>
-                        <a href="full video self 1/output/match_report.txt" class="file-link">
-                            <span class="file-icon">📄</span>
-                            <span class="file-name">Match Summary Report</span>
+                        <a href="full video self 1/output/match_report.txt" class="file-item">
+                            <div class="file-icon-wrapper">
+                                <span class="file-icon">📄</span>
+                            </div>
+                            <div class="file-details">
+                                <span class="file-name">Match Summary Report</span>
+                                <span class="file-description">Complete match statistical overview</span>
+                                <span class="file-type">TXT • 6.1 KB</span>
+                            </div>
                         </a>
-                        <a href="full video self 1/output/reid_analysis_report.txt" class="file-link">
-                            <span class="file-icon">🔍</span>
-                            <span class="file-name">Player Tracking Report</span>
+                        <a href="full video self 1/output/reid_analysis_report.txt" class="file-item">
+                            <div class="file-icon-wrapper">
+                                <span class="file-icon">🔍</span>
+                            </div>
+                            <div class="file-details">
+                                <span class="file-name">Player Tracking Report</span>
+                                <span class="file-description">ReID tracking analysis results</span>
+                                <span class="file-type">TXT • 3.8 KB</span>
+                            </div>
                         </a>
                     </div>
                 </div>
-                
-                <div class="analysis-panel medium file-category">
-                    <h3>🗂️ Data Files</h3>
+
+                <!-- Data Files -->
+                <div class="file-category-panel">
+                    <div class="category-header">
+                        <h3 class="category-title">Data Files</h3>
+                        <span class="file-count">6 files</span>
+                    </div>
                     <div class="file-list">
-                        <a href="full video self 1/output/detailed_coaching_data.json" class="file-link">
-                            <span class="file-icon">📦</span>
-                            <span class="file-name">Complete Analysis Data (JSON)</span>
+                        <a href="full video self 1/output/detailed_coaching_data.json" class="file-item">
+                            <div class="file-icon-wrapper">
+                                <span class="file-icon">📦</span>
+                            </div>
+                            <div class="file-details">
+                                <span class="file-name">Complete Analysis Data</span>
+                                <span class="file-description">Full dataset (43,649 lines)</span>
+                                <span class="file-type">JSON • 1.2 MB</span>
+                            </div>
                         </a>
-                        <a href="full video self 1/output/final.csv" class="file-link">
-                            <span class="file-icon">📈</span>
-                            <span class="file-name">Performance Metrics (CSV)</span>
+                        <a href="full video self 1/output/enhanced_coaching_data.json" class="file-item">
+                            <div class="file-icon-wrapper">
+                                <span class="file-icon">🎯</span>
+                            </div>
+                            <div class="file-details">
+                                <span class="file-name">Enhanced Coaching Data</span>
+                                <span class="file-description">Advanced coaching insights</span>
+                                <span class="file-type">JSON • 850 KB</span>
+                            </div>
                         </a>
-                        <a href="full video self 1/output/match_data_summary.json" class="file-link">
-                            <span class="file-icon">📋</span>
-                            <span class="file-name">Match Summary Data</span>
+                        <a href="full video self 1/output/final.csv" class="file-item">
+                            <div class="file-icon-wrapper">
+                                <span class="file-icon">📈</span>
+                            </div>
+                            <div class="file-details">
+                                <span class="file-name">Performance Metrics</span>
+                                <span class="file-description">Structured performance data</span>
+                                <span class="file-type">CSV • 245 KB</span>
+                            </div>
                         </a>
-                        <a href="full video self 1/output/enhanced_coaching_data.json" class="file-link">
-                            <span class="file-icon">🎯</span>
-                            <span class="file-name">Enhanced Coaching Data</span>
+                        <a href="full video self 1/output/match_data_summary.json" class="file-item">
+                            <div class="file-icon-wrapper">
+                                <span class="file-icon">📋</span>
+                            </div>
+                            <div class="file-details">
+                                <span class="file-name">Match Summary Data</span>
+                                <span class="file-description">Key match statistics</span>
+                                <span class="file-type">JSON • 156 B</span>
+                            </div>
+                        </a>
+                        <a href="full video self 1/output/final_reid_references.json" class="file-item">
+                            <div class="file-icon-wrapper">
+                                <span class="file-icon">🔗</span>
+                            </div>
+                            <div class="file-details">
+                                <span class="file-name">ReID References</span>
+                                <span class="file-description">Player tracking references</span>
+                                <span class="file-type">JSON • 78 KB</span>
+                            </div>
+                        </a>
+                        <a href="full video self 1/output/frame_analysis.txt" class="file-item">
+                            <div class="file-icon-wrapper">
+                                <span class="file-icon">�</span>
+                            </div>
+                            <div class="file-details">
+                                <span class="file-name">Frame Analysis</span>
+                                <span class="file-description">Frame-by-frame breakdown</span>
+                                <span class="file-type">TXT • 124 KB</span>
+                            </div>
                         </a>
                     </div>
                 </div>
-                
-                <div class="analysis-panel medium file-category">
-                    <h3>🖼️ Visualizations</h3>
+
+                <!-- Visualizations -->
+                <div class="file-category-panel">
+                    <div class="category-header">
+                        <h3 class="category-title">Visualizations</h3>
+                        <span class="file-count">5 files</span>
+                    </div>
                     <div class="file-list">
-                        <a href="full video self 1/output/player1_heatmap.png" class="file-link">
-                            <span class="file-icon">🔥</span>
-                            <span class="file-name">Player 1 Movement Heatmap</span>
+                        <a href="full video self 1/output/player1_heatmap.png" class="file-item">
+                            <div class="file-icon-wrapper">
+                                <span class="file-icon">🔥</span>
+                            </div>
+                            <div class="file-details">
+                                <span class="file-name">Player 1 Movement Heatmap</span>
+                                <span class="file-description">Positional density visualization</span>
+                                <span class="file-type">PNG • 342 KB</span>
+                            </div>
                         </a>
-                        <a href="full video self 1/output/player2_heatmap.png" class="file-link">
-                            <span class="file-icon">🔥</span>
-                            <span class="file-name">Player 2 Movement Heatmap</span>
+                        <a href="full video self 1/output/player2_heatmap.png" class="file-item">
+                            <div class="file-icon-wrapper">
+                                <span class="file-icon">🔥</span>
+                            </div>
+                            <div class="file-details">
+                                <span class="file-name">Player 2 Movement Heatmap</span>
+                                <span class="file-description">Positional density visualization</span>
+                                <span class="file-type">PNG • 338 KB</span>
+                            </div>
                         </a>
-                        <a href="full video self 1/output/ball_heatmap.png" class="file-link">
-                            <span class="file-icon">⚽</span>
-                            <span class="file-name">Ball Position Heatmap</span>
+                        <a href="full video self 1/output/ball_heatmap.png" class="file-item">
+                            <div class="file-icon-wrapper">
+                                <span class="file-icon">⚽</span>
+                            </div>
+                            <div class="file-details">
+                                <span class="file-name">Ball Position Heatmap</span>
+                                <span class="file-description">Ball trajectory visualization</span>
+                                <span class="file-type">PNG • 298 KB</span>
+                            </div>
                         </a>
-                        <a href="full video self 1/output/court-topdown.png" class="file-link">
-                            <span class="file-icon">🗺️</span>
-                            <span class="file-name">Court Analysis Diagram</span>
+                        <a href="full video self 1/output/court-topdown.png" class="file-item">
+                            <div class="file-icon-wrapper">
+                                <span class="file-icon">🗺️</span>
+                            </div>
+                            <div class="file-details">
+                                <span class="file-name">Court Analysis Diagram</span>
+                                <span class="file-description">Top-down court view</span>
+                                <span class="file-type">PNG • 512 KB</span>
+                            </div>
+                        </a>
+                        <a href="full video self 1/output/annotated-squash-court.png" class="file-item">
+                            <div class="file-icon-wrapper">
+                                <span class="file-icon">📐</span>
+                            </div>
+                            <div class="file-details">
+                                <span class="file-name">Annotated Court Layout</span>
+                                <span class="file-description">Court with analysis overlay</span>
+                                <span class="file-type">PNG • 456 KB</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Raw Data & Tracking -->
+                <div class="file-category-panel">
+                    <div class="category-header">
+                        <h3 class="category-title">Raw Data & Tracking</h3>
+                        <span class="file-count">8 files</span>
+                    </div>
+                    <div class="file-list">
+                        <a href="full video self 1/output/ball.txt" class="file-item">
+                            <div class="file-icon-wrapper">
+                                <span class="file-icon">⚽</span>
+                            </div>
+                            <div class="file-details">
+                                <span class="file-name">Ball Tracking Data</span>
+                                <span class="file-description">Raw ball position coordinates</span>
+                                <span class="file-type">TXT • 89 KB</span>
+                            </div>
+                        </a>
+                        <a href="full video self 1/output/player1.txt" class="file-item">
+                            <div class="file-icon-wrapper">
+                                <span class="file-icon">👤</span>
+                            </div>
+                            <div class="file-details">
+                                <span class="file-name">Player 1 Tracking Data</span>
+                                <span class="file-description">Raw position coordinates</span>
+                                <span class="file-type">TXT • 76 KB</span>
+                            </div>
+                        </a>
+                        <a href="full video self 1/output/player2.txt" class="file-item">
+                            <div class="file-icon-wrapper">
+                                <span class="file-icon">👤</span>
+                            </div>
+                            <div class="file-details">
+                                <span class="file-name">Player 2 Tracking Data</span>
+                                <span class="file-description">Raw position coordinates</span>
+                                <span class="file-type">TXT • 74 KB</span>
+                            </div>
+                        </a>
+                        <a href="full video self 1/output/ball-xyn.txt" class="file-item">
+                            <div class="file-icon-wrapper">
+                                <span class="file-icon">📍</span>
+                            </div>
+                            <div class="file-details">
+                                <span class="file-name">Ball XYN Coordinates</span>
+                                <span class="file-description">Normalized ball positions</span>
+                                <span class="file-type">TXT • 45 KB</span>
+                            </div>
+                        </a>
+                        <a href="full video self 1/output/read_ball.txt" class="file-item">
+                            <div class="file-icon-wrapper">
+                                <span class="file-icon">📖</span>
+                            </div>
+                            <div class="file-details">
+                                <span class="file-name">Ball Read Data</span>
+                                <span class="file-description">Processed ball information</span>
+                                <span class="file-type">TXT • 32 KB</span>
+                            </div>
+                        </a>
+                        <a href="full video self 1/output/read_player1.txt" class="file-item">
+                            <div class="file-icon-wrapper">
+                                <span class="file-icon">📖</span>
+                            </div>
+                            <div class="file-details">
+                                <span class="file-name">Player 1 Read Data</span>
+                                <span class="file-description">Processed player information</span>
+                                <span class="file-type">TXT • 28 KB</span>
+                            </div>
+                        </a>
+                        <a href="full video self 1/output/read_player2.txt" class="file-item">
+                            <div class="file-icon-wrapper">
+                                <span class="file-icon">📖</span>
+                            </div>
+                            <div class="file-details">
+                                <span class="file-name">Player 2 Read Data</span>
+                                <span class="file-description">Processed player information</span>
+                                <span class="file-type">TXT • 26 KB</span>
+                            </div>
+                        </a>
+                        <a href="full video self 1/output/final.txt" class="file-item">
+                            <div class="file-icon-wrapper">
+                                <span class="file-icon">📋</span>
+                            </div>
+                            <div class="file-details">
+                                <span class="file-name">Final Analysis Summary</span>
+                                <span class="file-description">Complete analysis overview</span>
+                                <span class="file-type">TXT • 12 KB</span>
+                            </div>
                         </a>
                     </div>
                 </div>
@@ -730,12 +2922,35 @@
             </div>
         </section>
 
-        <!-- Footer -->
-        <footer class="footer">
-            <div class="footer-text">Professional Technical Analysis Complete</div>
-            <div class="footer-links">
-                <a href="choice.html">Switch View</a>
-                <a href="projects-professional.html">Back to Projects</a>
+        <!-- Professional Footer -->
+        <footer class="professional-footer">
+            <div class="footer-container">
+                <div class="footer-content">
+                    <div class="footer-main">
+                        <h3 class="footer-title">Professional Technical Analysis Complete</h3>
+                        <p class="footer-description">Advanced AI-powered squash coaching analysis with computer vision and machine learning</p>
+                        <div class="footer-stats">
+                            <span class="footer-stat">4,086 Frames Processed</span>
+                            <span class="footer-stat">•</span>
+                            <span class="footer-stat">99.8% Accuracy</span>
+                            <span class="footer-stat">•</span>
+                            <span class="footer-stat">GPU Accelerated</span>
+                        </div>
+                    </div>
+                    <div class="footer-actions">
+                        <a href="choice.html" class="footer-btn">Switch View</a>
+                        <a href="projects-professional.html" class="footer-btn primary">Back to Projects</a>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <div class="footer-info">
+                        <span>© 2025 ODIOUSCHIPMUNK</span>
+                        <span>•</span>
+                        <span>Professional AI Analysis System</span>
+                        <span>•</span>
+                        <span>All Rights Reserved</span>
+                    </div>
+                </div>
             </div>
         </footer>
     </div>
