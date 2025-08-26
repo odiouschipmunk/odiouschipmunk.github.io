@@ -688,6 +688,107 @@
             .section-title {
                 font-size: 2rem;
             }
+
+            .analysis-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+                padding: 0 20px;
+            }
+
+            .analysis-panel.large {
+                grid-column: span 1;
+            }
+
+            .analysis-panel h3 {
+                font-size: 1.1rem;
+                padding: 15px;
+            }
+
+            .graphic-wrapper {
+                padding: 15px;
+            }
+
+            .graphic-description {
+                font-size: 0.85rem;
+                padding: 0 15px 15px;
+            }
+
+            .visualization-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+                padding: 0 20px;
+            }
+
+            .recommendations-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+                padding: 0 20px;
+            }
+
+            .rec-header {
+                padding: 20px;
+                flex-direction: column;
+                text-align: center;
+                gap: 10px;
+            }
+
+            .rec-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 1.5rem;
+            }
+
+            .rec-header h3 {
+                font-size: 1.2rem;
+            }
+
+            .rec-content {
+                padding: 20px;
+            }
+
+            .rec-content h4 {
+                font-size: 1rem;
+            }
+
+            .rec-content li {
+                font-size: 0.9rem;
+            }
+
+            .summary-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+                padding: 0 20px;
+            }
+
+            .summary-header {
+                padding: 15px;
+                flex-direction: column;
+                text-align: center;
+                gap: 10px;
+            }
+
+            .summary-icon {
+                width: 40px;
+                height: 40px;
+                font-size: 1.4rem;
+            }
+
+            .summary-header h3 {
+                font-size: 1.1rem;
+            }
+
+            .summary-content {
+                padding: 15px;
+            }
+
+            .summary-stat {
+                padding: 10px 0;
+            }
+
+            .summary-stat .stat-label,
+            .summary-stat .stat-value {
+                font-size: 0.85rem;
+            }
         }
 
         @media (max-width: 480px) {
@@ -911,9 +1012,597 @@
 
         /* Enhanced section styling for comprehensive-analysis */
         .comprehensive-analysis {
-            background: var(--primary-black);
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.8) 0%, rgba(15, 15, 15, 0.9) 50%, rgba(5, 5, 5, 0.8) 100%);
+            -webkit-backdrop-filter: blur(15px);
+            backdrop-filter: blur(15px);
             padding: 60px 0;
-            border-bottom: 1px solid var(--dark-gray);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .comprehensive-analysis::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 25% 75%, rgba(255, 255, 255, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 75% 25%, rgba(255, 255, 255, 0.04) 0%, transparent 50%);
+            animation: visualFloat 18s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes visualFloat {
+            0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.6; }
+            33% { transform: translate(8px, -8px) scale(1.02); opacity: 1; }
+            66% { transform: translate(-5px, 5px) scale(0.98); opacity: 0.8; }
+        }
+
+        .analysis-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .analysis-panel {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.7) 0%, rgba(25, 25, 25, 0.9) 100%);
+            -webkit-backdrop-filter: blur(12px);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .analysis-panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.02), transparent);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .analysis-panel:hover {
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-5px);
+            box-shadow: 
+                0 15px 35px rgba(0, 0, 0, 0.5),
+                0 8px 20px rgba(255, 255, 255, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .analysis-panel:hover::before {
+            opacity: 1;
+        }
+
+        .analysis-panel.large {
+            grid-column: span 2;
+        }
+
+        .analysis-panel.medium {
+            grid-column: span 1;
+        }
+
+        .analysis-panel h3 {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.9) 0%, rgba(20, 20, 20, 0.95) 100%);
+            color: var(--pure-white);
+            font-size: 1.3rem;
+            font-weight: 600;
+            padding: 20px;
+            margin: 0;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            text-shadow: 0 2px 10px rgba(255, 255, 255, 0.1);
+        }
+
+        .graphic-wrapper {
+            padding: 20px;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.4) 0%, rgba(15, 15, 15, 0.6) 100%);
+            position: relative;
+        }
+
+        .analysis-graphic {
+            width: 100%;
+            height: auto;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            display: block;
+        }
+
+        .analysis-graphic:hover {
+            border-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            transform: scale(1.02);
+        }
+
+        .graphic-description {
+            font-size: 0.9rem;
+            color: var(--light-gray);
+            line-height: 1.5;
+            text-align: center;
+            margin: 15px 0 0 0;
+            padding: 0 20px 20px;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Additional Visualizations Section */
+        .additional-visualizations {
+            background: linear-gradient(135deg, rgba(5, 5, 5, 0.8) 0%, rgba(10, 10, 10, 0.9) 50%, rgba(0, 0, 0, 0.8) 100%);
+            -webkit-backdrop-filter: blur(15px);
+            backdrop-filter: blur(15px);
+            padding: 60px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .additional-visualizations::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 15% 85%, rgba(255, 255, 255, 0.02) 0%, transparent 50%),
+                radial-gradient(circle at 85% 15%, rgba(255, 255, 255, 0.03) 0%, transparent 50%);
+            animation: additionalFloat 20s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes additionalFloat {
+            0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.5; }
+            25% { transform: translate(12px, -12px) scale(1.03); opacity: 1; }
+            50% { transform: translate(-8px, 8px) scale(0.97); opacity: 0.7; }
+            75% { transform: translate(6px, -6px) scale(1.01); opacity: 0.9; }
+        }
+
+        .visualization-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .visualization-panel {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.6) 0%, rgba(20, 20, 20, 0.8) 100%);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .visualization-panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.02), transparent);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .visualization-panel:hover {
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-5px);
+            box-shadow: 
+                0 15px 35px rgba(0, 0, 0, 0.5),
+                0 8px 20px rgba(255, 255, 255, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .visualization-panel:hover::before {
+            opacity: 1;
+        }
+
+        .visualization-panel h3 {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.8) 0%, rgba(15, 15, 15, 0.9) 100%);
+            color: var(--pure-white);
+            font-size: 1.2rem;
+            font-weight: 600;
+            padding: 18px;
+            margin: 0;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            text-shadow: 0 2px 10px rgba(255, 255, 255, 0.1);
+        }
+
+        /* Enhanced Coaching Recommendations Section */
+        .coaching-recommendations-section {
+            background: linear-gradient(135deg, rgba(10, 10, 10, 0.8) 0%, rgba(0, 0, 0, 0.9) 50%, rgba(15, 15, 15, 0.8) 100%);
+            -webkit-backdrop-filter: blur(15px);
+            backdrop-filter: blur(15px);
+            padding: 60px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .coaching-recommendations-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.04) 0%, transparent 50%);
+            animation: coachingFloat 22s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes coachingFloat {
+            0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.6; }
+            33% { transform: translate(10px, -10px) scale(1.02); opacity: 1; }
+            66% { transform: translate(-7px, 7px) scale(0.98); opacity: 0.8; }
+        }
+
+        .recommendations-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .recommendation-card {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.7) 0%, rgba(25, 25, 25, 0.9) 100%);
+            -webkit-backdrop-filter: blur(12px);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .recommendation-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.02), transparent);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .recommendation-card:hover {
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-8px);
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.6),
+                0 10px 25px rgba(255, 255, 255, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .recommendation-card:hover::before {
+            opacity: 1;
+        }
+
+        .rec-header {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.9) 0%, rgba(20, 20, 20, 0.95) 100%);
+            padding: 25px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            position: relative;
+        }
+
+        .rec-icon {
+            font-size: 2rem;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .recommendation-card:hover .rec-icon {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.08) 100%);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
+        }
+
+        .rec-header h3 {
+            color: var(--pure-white);
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 10px rgba(255, 255, 255, 0.1);
+        }
+
+        .rec-content {
+            padding: 25px;
+            position: relative;
+        }
+
+        .rec-content h4 {
+            color: var(--pure-white);
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin: 0 0 15px 0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            text-shadow: 0 1px 5px rgba(255, 255, 255, 0.1);
+        }
+
+        .rec-content ul {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 20px 0;
+        }
+
+        .rec-content li {
+            color: var(--light-gray);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 12px;
+            padding-left: 20px;
+            position: relative;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        }
+
+        .rec-content li::before {
+            content: '•';
+            color: var(--pure-white);
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        .rec-content li strong {
+            color: var(--pure-white);
+            font-weight: 600;
+        }
+
+        .improvement-metric {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.5) 0%, rgba(15, 15, 15, 0.7) 100%);
+            -webkit-backdrop-filter: blur(8px);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .metric-label {
+            color: var(--light-gray);
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .metric-value {
+            color: var(--pure-white);
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-shadow: 0 2px 8px rgba(255, 255, 255, 0.2);
+        }
+
+        /* AI Analysis Summary Section */
+        .analysis-summary-section {
+            background: linear-gradient(135deg, rgba(15, 15, 15, 0.8) 0%, rgba(0, 0, 0, 0.9) 50%, rgba(20, 20, 20, 0.8) 100%);
+            -webkit-backdrop-filter: blur(15px);
+            backdrop-filter: blur(15px);
+            padding: 60px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .analysis-summary-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 30% 70%, rgba(255, 255, 255, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 70% 30%, rgba(255, 255, 255, 0.04) 0%, transparent 50%);
+            animation: summaryFloat 25s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes summaryFloat {
+            0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.5; }
+            25% { transform: translate(15px, -15px) scale(1.04); opacity: 1; }
+            50% { transform: translate(-10px, 10px) scale(0.96); opacity: 0.7; }
+            75% { transform: translate(8px, -8px) scale(1.02); opacity: 0.9; }
+        }
+
+        .summary-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .summary-card {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.6) 0%, rgba(20, 20, 20, 0.8) 100%);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .summary-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.02), transparent);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .summary-card:hover {
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-5px);
+            box-shadow: 
+                0 15px 35px rgba(0, 0, 0, 0.5),
+                0 8px 20px rgba(255, 255, 255, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .summary-card:hover::before {
+            opacity: 1;
+        }
+
+        .summary-header {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.8) 0%, rgba(15, 15, 15, 0.9) 100%);
+            padding: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            position: relative;
+        }
+
+        .summary-icon {
+            font-size: 1.8rem;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .summary-card:hover .summary-icon {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.08) 100%);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
+        }
+
+        .summary-header h3 {
+            color: var(--pure-white);
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 10px rgba(255, 255, 255, 0.1);
+        }
+
+        .summary-content {
+            padding: 20px;
+            position: relative;
+        }
+
+        .summary-stat {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .summary-stat::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.03), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .summary-stat:last-child {
+            border-bottom: none;
+        }
+
+        .summary-stat:hover {
+            background: linear-gradient(135deg, rgba(5, 5, 5, 0.5) 0%, rgba(15, 15, 15, 0.7) 100%);
+            -webkit-backdrop-filter: blur(8px);
+            backdrop-filter: blur(8px);
+            padding-left: 10px;
+            padding-right: 10px;
+            margin: 0 -10px;
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .summary-stat:hover::before {
+            left: 100%;
+        }
+
+        .summary-stat .stat-label {
+            color: var(--light-gray);
+            font-size: 0.9rem;
+            font-weight: 500;
+            flex: 1;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        }
+
+        .summary-stat .stat-value {
+            color: var(--pure-white);
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-align: right;
+            min-width: 120px;
+            text-shadow: 0 1px 5px rgba(255, 255, 255, 0.1);
         }
 
         .analysis-header {
@@ -1678,16 +2367,16 @@
                             <span class="metric-label">Detection Accuracy</span>
                         </div>
                         <div class="metric-item">
-                            <span class="metric-value">4,086</span>
-                            <span class="metric-label">Frames Processed</span>
+                            <span class="metric-value">587</span>
+                            <span class="metric-label">Total Match Frames</span>
                         </div>
                         <div class="metric-item">
-                            <span class="metric-value">3,982</span>
+                            <span class="metric-value">586</span>
                             <span class="metric-label">Enhanced Data Points</span>
                         </div>
                         <div class="metric-item">
-                            <span class="metric-value">587</span>
-                            <span class="metric-label">Total Match Frames</span>
+                            <span class="metric-value">56</span>
+                            <span class="metric-label">Coaching Points</span>
                         </div>
                     </div>
                 </div>
@@ -2290,6 +2979,291 @@
             </div>
         </section>
 
+        <!-- Comprehensive Visual Analysis Section -->
+        <section class="comprehensive-analysis">
+            <div class="analysis-header">
+                <h2>📊 Comprehensive Visual Analysis</h2>
+                <p>Advanced computer vision graphics and performance visualizations</p>
+            </div>
+            
+            <div class="analysis-grid">
+                <!-- Row 1: Main Analysis Graphics -->
+                <div class="analysis-panel large">
+                    <h3>Court Positioning Analysis</h3>
+                    <div class="graphic-wrapper">
+                        <img src="full video self 1/output/graphics/detailed_court_positioning.png" 
+                             alt="Court Positioning Analysis" 
+                             class="analysis-graphic"
+                             loading="lazy">
+                    </div>
+                    <p class="graphic-description">Advanced heat map showing player positioning throughout the match with movement patterns</p>
+                </div>
+                
+                <div class="analysis-panel large">
+                    <h3>Comprehensive Ball Analysis</h3>
+                    <div class="graphic-wrapper">
+                        <img src="full video self 1/output/graphics/comprehensive_ball_analysis.png" 
+                             alt="Comprehensive Ball Analysis" 
+                             class="analysis-graphic"
+                             loading="lazy">
+                    </div>
+                    <p class="graphic-description">Detailed ball movement, trajectory patterns, and physics analysis</p>
+                </div>
+                
+                <!-- Row 2: Shot & Match Flow -->
+                <div class="analysis-panel large">
+                    <h3>Enhanced Shot Analysis</h3>
+                    <div class="graphic-wrapper">
+                        <img src="full video self 1/output/graphics/enhanced_shot_analysis.png" 
+                             alt="Enhanced Shot Analysis" 
+                             class="analysis-graphic"
+                             loading="lazy">
+                    </div>
+                    <p class="graphic-description">Advanced shot type distribution and accuracy analysis with ML classification</p>
+                </div>
+                
+                <div class="analysis-panel large">
+                    <h3>Match Flow Dynamics</h3>
+                    <div class="graphic-wrapper">
+                        <img src="full video self 1/output/graphics/match_flow.png" 
+                             alt="Match Flow Dynamics" 
+                             class="analysis-graphic"
+                             loading="lazy">
+                    </div>
+                    <p class="graphic-description">Timeline analysis of match dynamics, intensity patterns, and performance metrics</p>
+                </div>
+                
+                <!-- Row 3: Advanced Analysis -->
+                <div class="analysis-panel large">
+                    <h3>Player Movement Analysis</h3>
+                    <div class="graphic-wrapper">
+                        <img src="full video self 1/output/graphics/advanced/player_movement_analysis.png" 
+                             alt="Player Movement Analysis" 
+                             class="analysis-graphic"
+                             loading="lazy">
+                    </div>
+                    <p class="graphic-description">Advanced player movement patterns and efficiency analysis</p>
+                </div>
+                
+                <div class="analysis-panel large">
+                    <h3>Court Zone Analysis</h3>
+                    <div class="graphic-wrapper">
+                        <img src="full video self 1/output/graphics/advanced/court_zone_analysis.png" 
+                             alt="Court Zone Analysis" 
+                             class="analysis-graphic"
+                             loading="lazy">
+                    </div>
+                    <p class="graphic-description">Strategic court zone utilization and coverage analysis</p>
+                </div>
+                
+                <!-- Row 4: Shot Transitions & Basic Analysis -->
+                <div class="analysis-panel large">
+                    <h3>Shot Transitions Performance</h3>
+                    <div class="graphic-wrapper">
+                        <img src="full video self 1/output/graphics/advanced/shot_transitions_performance.png" 
+                             alt="Shot Transitions Performance" 
+                             class="analysis-graphic"
+                             loading="lazy">
+                    </div>
+                    <p class="graphic-description">Advanced shot transition patterns and tactical sequence analysis</p>
+                </div>
+                
+                <div class="analysis-panel medium">
+                    <h3>Basic Analysis Overview</h3>
+                    <div class="graphic-wrapper">
+                        <img src="full video self 1/output/graphics/basic_analysis.png" 
+                             alt="Basic Analysis Overview" 
+                             class="analysis-graphic"
+                             loading="lazy">
+                    </div>
+                    <p class="graphic-description">Fundamental match statistics and performance metrics</p>
+                </div>
+                
+                <div class="analysis-panel medium">
+                    <h3>Ball Analysis Details</h3>
+                    <div class="graphic-wrapper">
+                        <img src="full video self 1/output/graphics/ball_analysis.png" 
+                             alt="Ball Analysis Details" 
+                             class="analysis-graphic"
+                             loading="lazy">
+                    </div>
+                    <p class="graphic-description">Detailed ball trajectory and physics analysis</p>
+                </div>
+                
+                <div class="analysis-panel medium">
+                    <h3>Shot Analysis Distribution</h3>
+                    <div class="graphic-wrapper">
+                        <img src="full video self 1/output/graphics/shot_analysis.png" 
+                             alt="Shot Analysis Distribution" 
+                             class="analysis-graphic"
+                             loading="lazy">
+                    </div>
+                    <p class="graphic-description">Comprehensive shot distribution patterns and classification</p>
+                </div>
+                
+                <div class="analysis-panel medium">
+                    <h3>Shot-Player Analysis</h3>
+                    <div class="graphic-wrapper">
+                        <img src="full video self 1/output/graphics/shot_player_analysis.png" 
+                             alt="Shot-Player Analysis" 
+                             class="analysis-graphic"
+                             loading="lazy">
+                    </div>
+                    <p class="graphic-description">Player-specific shot performance and tactical analysis</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Additional Visualizations & Heatmaps -->
+        <section class="additional-visualizations">
+            <div class="section-header">
+                <h2 class="section-title">Additional Visualizations & Heatmaps</h2>
+                <p class="section-description">Specialized analysis graphics and positional heatmaps</p>
+            </div>
+            
+            <div class="visualization-grid">
+                <div class="visualization-panel">
+                    <h3>Player 1 Heatmap</h3>
+                    <div class="graphic-wrapper">
+                        <img src="full video self 1/output/player1_heatmap.png" 
+                             alt="Player 1 Heatmap" 
+                             class="analysis-graphic"
+                             loading="lazy">
+                    </div>
+                    <p class="graphic-description">Positional density analysis for Player 1</p>
+                </div>
+                
+                <div class="visualization-panel">
+                    <h3>Player 2 Heatmap</h3>
+                    <div class="graphic-wrapper">
+                        <img src="full video self 1/output/player2_heatmap.png" 
+                             alt="Player 2 Heatmap" 
+                             class="analysis-graphic"
+                             loading="lazy">
+                    </div>
+                    <p class="graphic-description">Positional density analysis for Player 2</p>
+                </div>
+                
+                <div class="visualization-panel">
+                    <h3>Ball Heatmap</h3>
+                    <div class="graphic-wrapper">
+                        <img src="full video self 1/output/ball_heatmap.png" 
+                             alt="Ball Heatmap" 
+                             class="analysis-graphic"
+                             loading="lazy">
+                    </div>
+                    <p class="graphic-description">Ball trajectory and position density analysis</p>
+                </div>
+                
+                <div class="visualization-panel">
+                    <h3>Court Top-Down View</h3>
+                    <div class="graphic-wrapper">
+                        <img src="full video self 1/output/court-topdown.png" 
+                             alt="Court Top-Down View" 
+                             class="analysis-graphic"
+                             loading="lazy">
+                    </div>
+                    <p class="graphic-description">Top-down court analysis and layout</p>
+                </div>
+                
+                <div class="visualization-panel">
+                    <h3>Annotated Court Layout</h3>
+                    <div class="graphic-wrapper">
+                        <img src="full video self 1/output/annotated-squash-court.png" 
+                             alt="Annotated Court Layout" 
+                             class="analysis-graphic"
+                             loading="lazy">
+                    </div>
+                    <p class="graphic-description">Court layout with analysis annotations</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- AI Analysis Summary -->
+        <section class="analysis-summary-section">
+            <div class="section-header">
+                <h2 class="section-title">🤖 AI Analysis Summary</h2>
+                <p class="section-description">Key insights and findings from the autonomous coaching analysis</p>
+            </div>
+            
+            <div class="summary-grid">
+                <div class="summary-card">
+                    <div class="summary-header">
+                        <div class="summary-icon">📊</div>
+                        <h3>Analysis Overview</h3>
+                    </div>
+                    <div class="summary-content">
+                        <div class="summary-stat">
+                            <span class="stat-label">Analysis Date:</span>
+                            <span class="stat-value">2025-07-20 13:51:58</span>
+                        </div>
+                        <div class="summary-stat">
+                            <span class="stat-label">Video Analyzed:</span>
+                            <span class="stat-value">self1.mp4</span>
+                        </div>
+                        <div class="summary-stat">
+                            <span class="stat-label">Total Frames:</span>
+                            <span class="stat-value">587</span>
+                        </div>
+                        <div class="summary-stat">
+                            <span class="stat-label">Enhanced Data Points:</span>
+                            <span class="stat-value">586</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="summary-card">
+                    <div class="summary-header">
+                        <div class="summary-icon">🏐</div>
+                        <h3>Ball Bounce Analysis</h3>
+                    </div>
+                    <div class="summary-content">
+                        <div class="summary-stat">
+                            <span class="stat-label">Total Bounces:</span>
+                            <span class="stat-value">487 detected</span>
+                        </div>
+                        <div class="summary-stat">
+                            <span class="stat-label">Avg Bounces per Rally:</span>
+                            <span class="stat-value">0.8</span>
+                        </div>
+                        <div class="summary-stat">
+                            <span class="stat-label">Bounce Frequency:</span>
+                            <span class="stat-value">High</span>
+                        </div>
+                        <div class="summary-stat">
+                            <span class="stat-label">Recommendation:</span>
+                            <span class="stat-value">Reduce wall contact</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="summary-card">
+                    <div class="summary-header">
+                        <div class="summary-icon">🎯</div>
+                        <h3>Shot Performance</h3>
+                    </div>
+                    <div class="summary-content">
+                        <div class="summary-stat">
+                            <span class="stat-label">Primary Shot:</span>
+                            <span class="stat-value">Slight Crosscourt Lob Soft</span>
+                        </div>
+                        <div class="summary-stat">
+                            <span class="stat-label">Secondary Shot:</span>
+                            <span class="stat-value">Straight Drive Soft</span>
+                        </div>
+                        <div class="summary-stat">
+                            <span class="stat-label">Tertiary Shot:</span>
+                            <span class="stat-value">Straight Lob Soft</span>
+                        </div>
+                        <div class="summary-stat">
+                            <span class="stat-label">Focus Area:</span>
+                            <span class="stat-value">Height consistency</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- Movement & Performance Analytics -->
         <section class="comprehensive-analysis">
             <div class="analysis-header">
@@ -2722,48 +3696,72 @@
             </div>
         </section>
 
-        <!-- Coaching Recommendations -->
-        <section class="recommendations-section">
-            <div class="recommendations-header">
-                <h2>🎓 Advanced Coaching Recommendations</h2>
-                <p>AI-powered coaching insights with technical implementation details</p>
+        <!-- Enhanced AI Coaching Recommendations -->
+        <section class="coaching-recommendations-section">
+            <div class="section-header">
+                <h2 class="section-title">🎓 AI-Powered Coaching Recommendations</h2>
+                <p class="section-description">Advanced machine learning insights for performance optimization and tactical improvement</p>
             </div>
             
             <div class="recommendations-grid">
-                <div class="recommendation-card ball-control">
-                    <div class="rec-icon">⚽</div>
-                    <h3>Ball Control Optimization</h3>
-                    <ul>
-                        <li><strong>Bounce Analysis:</strong> 487 bounces detected, reduce unnecessary wall contact</li>
-                        <li><strong>Trajectory Control:</strong> Improve straight drive accuracy (15.5% current rate)</li>
-                        <li><strong>Speed Consistency:</strong> Work on maintaining avg 8.05 px/frame speed</li>
-                        <li><strong>Physics-based Training:</strong> Use trajectory modeling for shot optimization</li>
-                    </ul>
-                    <div class="improvement-score">+2.1 points potential • Technical Focus</div>
+                <div class="recommendation-card">
+                    <div class="rec-header">
+                        <div class="rec-icon">🎯</div>
+                        <h3>Technical Shot Analysis</h3>
+                    </div>
+                    <div class="rec-content">
+                        <h4>Shot Placement & Bounce Control</h4>
+                        <ul>
+                            <li><strong>Slight Crosscourt Lob Soft:</strong> Strong asset but needs placement improvement. Focus on consistent bounce patterns near the net</li>
+                            <li><strong>Straight Drive Soft:</strong> Effective but requires more precision. Maintain consistent height and trajectory</li>
+                            <li><strong>Straight Lob Soft:</strong> Improve height consistency. Ensure gentle bounces to avoid easy returns</li>
+                            <li><strong>Bounce Analysis:</strong> 487 bounces detected - work on reducing unnecessary wall contact</li>
+                        </ul>
+                        <div class="improvement-metric">
+                            <span class="metric-label">Potential Improvement:</span>
+                            <span class="metric-value">+2.1 points</span>
+                        </div>
+                    </div>
                 </div>
                 
-                <div class="recommendation-card positioning">
-                    <div class="rec-icon">🏃</div>
-                    <h3>Movement Pattern Enhancement</h3>
-                    <ul>
-                        <li><strong>Court Coverage:</strong> Both players show excellent coverage, maintain consistency</li>
-                        <li><strong>Mobility Improvement:</strong> Focus on lateral and diagonal movement speed</li>
-                        <li><strong>Central Positioning:</strong> Optimize return-to-center efficiency</li>
-                        <li><strong>Real-time Tracking:</strong> Use ReID data for movement analysis</li>
-                    </ul>
-                    <div class="improvement-score">+1.8 points potential • Movement Focus</div>
+                <div class="recommendation-card">
+                    <div class="rec-header">
+                        <div class="rec-icon">🏃</div>
+                        <h3>Movement Pattern Assessment</h3>
+                    </div>
+                    <div class="rec-content">
+                        <h4>Court Coverage & Movement Quality</h4>
+                        <ul>
+                            <li><strong>Player 1:</strong> Good court coverage but mobility needs improvement. Focus on quicker lateral and diagonal movements</li>
+                            <li><strong>Player 2:</strong> Similar to Player 1 - improve mobility and range. Avoid getting stuck in one area</li>
+                            <li><strong>Central Positioning:</strong> Both players show good central positioning, expand range efficiently</li>
+                            <li><strong>Movement Speed:</strong> Work on rapid direction changes without losing momentum</li>
+                        </ul>
+                        <div class="improvement-metric">
+                            <span class="metric-label">Potential Improvement:</span>
+                            <span class="metric-value">+1.8 points</span>
+                        </div>
+                    </div>
                 </div>
                 
-                <div class="recommendation-card technique">
-                    <div class="rec-icon">🎯</div>
-                    <h3>Shot Classification & Tactics</h3>
-                    <ul>
-                        <li><strong>Shot Variety:</strong> Maintain high variety score (39/10) with 46 shot types</li>
-                        <li><strong>Pattern Predictability:</strong> Keep low predictability (15%) through variation</li>
-                        <li><strong>Height Distribution:</strong> Balance 84.5% lobs with more drives</li>
-                        <li><strong>ML-based Analysis:</strong> Use AI insights for tactical development</li>
-                    </ul>
-                    <div class="improvement-score">+1.5 points potential • Tactical Focus</div>
+                <div class="recommendation-card">
+                    <div class="rec-header">
+                        <div class="rec-icon">⚡</div>
+                        <h3>Training Recommendations</h3>
+                    </div>
+                    <div class="rec-content">
+                        <h4>Specific Exercises & Drills</h4>
+                        <ul>
+                            <li><strong>Mobility Drills:</strong> Use cones/markers for quick lateral and diagonal movement practice</li>
+                            <li><strong>Height Consistency:</strong> Practice hitting balls at different heights with target lines</li>
+                            <li><strong>Ball Bounce Control:</strong> Use rebounder or partner for various angle practice</li>
+                            <li><strong>Shot Variety:</strong> Maintain 46 unique shot types with 39/10 variety score</li>
+                        </ul>
+                        <div class="improvement-metric">
+                            <span class="metric-label">Potential Improvement:</span>
+                            <span class="metric-value">+1.5 points</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>

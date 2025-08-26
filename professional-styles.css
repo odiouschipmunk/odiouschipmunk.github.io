@@ -785,6 +785,7 @@ section {
     -webkit-backdrop-filter: blur(15px);
     backdrop-filter: blur(15px);
     animation: fadeInUp 0.6s ease-out;
+    cursor: pointer;
 }
 
 .contact-method::before {

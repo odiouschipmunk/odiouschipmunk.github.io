@@ -219,6 +219,101 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+// Copy email to clipboard function
+function copyEmail() {
+    const email = 'odiouschipmunk@gmail.com';
+    
+    // Use the modern Clipboard API if available
+    if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(email).then(function() {
+            showCopyNotification('Email copied to clipboard!');
+        }, function(err) {
+            // Fallback if clipboard API fails
+            fallbackCopyTextToClipboard(email);
+        });
+    } else {
+        // Fallback for older browsers or non-secure contexts
+        fallbackCopyTextToClipboard(email);
+    }
+}
+
+// Fallback copy function
+function fallbackCopyTextToClipboard(text) {
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+    
+    // Avoid scrolling to bottom
+    textArea.style.top = "0";
+    textArea.style.left = "0";
+    textArea.style.position = "fixed";
+    
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    
+    try {
+        const successful = document.execCommand('copy');
+        if (successful) {
+            showCopyNotification('Email copied to clipboard!');
+        } else {
+            showCopyNotification('Failed to copy email', true);
+        }
+    } catch (err) {
+        showCopyNotification('Failed to copy email', true);
+    }
+    
+    document.body.removeChild(textArea);
+}
+
+// Show notification when email is copied
+function showCopyNotification(message, isError = false) {
+    // Create notification element
+    const notification = document.createElement('div');
+    notification.textContent = message;
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: ${isError ? '#ff4444' : '#4CAF50'};
+        color: white;
+        padding: 12px 20px;
+        border-radius: 4px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        z-index: 10000;
+        font-family: inherit;
+        font-size: 14px;
+        transform: translateX(400px);
+        transition: transform 0.3s ease;
+    `;
+    
+    document.body.appendChild(notification);
+    
+    // Animate in
+    setTimeout(() => {
+        notification.style.transform = 'translateX(0)';
+    }, 10);
+    
+    // Remove after 3 seconds
+    setTimeout(() => {
+        notification.style.transform = 'translateX(400px)';
+        setTimeout(() => {
+            if (notification.parentNode) {
+                document.body.removeChild(notification);
+            }
+        }, 300);
+    }, 3000);
+}
+
+// Open LinkedIn profile
+function openLinkedIn() {
+    window.open('https://www.linkedin.com/in/dhruv-panchal-447038343/', '_blank', 'noopener,noreferrer');
+}
+
+// Open GitHub profile
+function openGitHub() {
+    window.open('https://github.com/odiouschipmunk', '_blank', 'noopener,noreferrer');
+}
+
 // Utility function for smooth page transitions
 function transitionToPage(url) {
     document.body.style.opacity = '0';
