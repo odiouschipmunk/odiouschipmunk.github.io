@@ -307,7 +307,7 @@ function navigateToPage(page) {
         if (page === 'credits') {
             window.location.href = 'credits.html';
         } else if (page === 'squash') {
-            window.location.href = 'squash-analysis.html';
+            window.open('https://paramsquash.com', '_blank');
         } else if (page === 'manual') {
             window.location.href = 'manual.html';
         } else if (page === 'contact') {

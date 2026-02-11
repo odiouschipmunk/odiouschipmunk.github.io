@@ -19,10 +19,10 @@ document.addEventListener('DOMContentLoaded', function() {
         
         if (currentPath.includes('professional') || currentPath === '/professional.html') {
             suggestions.push('🎮 Try arcade mode: window.location = "arcade.html"');
-            suggestions.push('🎯 Squash analysis (arcade): window.location = "squash-analysis.html"');
+            suggestions.push('🎯 ParamSquash: window.open("https://paramsquash.com", "_blank")');
         } else if (currentPath.includes('arcade') || currentPath === '/arcade.html') {
             suggestions.push('💼 Try professional mode: window.location = "professional.html"');
-            suggestions.push('📊 Squash analysis (pro): window.location = "squash-analysis-professional.html"');
+            suggestions.push('📊 ParamSquash: window.open("https://paramsquash.com", "_blank")');
         } else {
             suggestions.push('🎯 Start at choice page: window.location = "choice.html"');
         }
